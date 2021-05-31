@@ -1,33 +1,32 @@
 <template>
-    <div class="sky_titleBar">
-        <slot></slot>
-    </div>
+  <div class="sky_titleBar">
+    <slot></slot>
+  </div>
 </template>
 
 <style scoped>
 .sky_titleBar {
-    -webkit-app-region: drag;
-    width: 100%;
-    height: 40px;
-    position: sticky;
-    top: 0;
-    background-color: #FFFFFF;
+  -webkit-app-region: drag;
+  width: 100%;
+  height: 40px;
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
 }
 </style>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 
 export default defineComponent({
-    setup() {
-        
-    },
-})
+  name: "GTitleBar",
+  setup() {},
+});
 </script>
 
 
 <style>
 .sky_titleBar * {
-    -webkit-app-region: no-drag;
+  -webkit-app-region: no-drag;
 }
 </style>

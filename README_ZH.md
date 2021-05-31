@@ -1,10 +1,8 @@
-# Electron-Vite-template
-
-[国内访问地址](https://gitee.com/Zh-Sky/electron-vite-template)
+# Rider-war
 
 #### 如何安装
 
-``` bash
+```bash
 # 首先全局安装nrm
 npm i -g nrm
 # 然后使用nrm切换为淘宝源，或者你已经切换了npm的源也是可以的，强烈不建议使用cnpm如果你不想看到什么奇奇怪怪的爆红问题
@@ -37,4 +35,5 @@ npm config edit
 ---
 
 # 更新日志
-2021年02月26日：项目创建。
+
+2021 年 02 月 26 日：项目创建。

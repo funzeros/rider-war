@@ -1,8 +1,8 @@
 {
-  "name": "electron-vite-template",
+  "name": "rider-war",
   "version": "1.0.0",
   "main": "./dist/electron/main/main.js",
-  "author": "sky <https://github.com/umbrella22>",
+  "author": "gems",
   "license": "MIT",
   "scripts": {
     "dev": "node .electron-vite/dev-runner.js",
@@ -25,8 +25,8 @@
         "url": "http://127.0.0.1"
       }
     ],
-    "productName": "electron-vite-template",
-    "appId": "org.sky.electron-vite-template",
+    "productName": "rider-war",
+    "appId": "aote.fun.rider-war",
     "directories": {
       "output": "build"
     },

@@ -1,12 +1,10 @@
-# Electron-Vite-template
+plate
 
 > An electron-Vite project
 
-[国内访问地址](https://gitee.com/Zh-Sky/electron-vite-template)
-
 #### Build Setup
 
-``` bash
+```bash
 # For Chinese Developers
 # install nrm
 npm i -g nrm
