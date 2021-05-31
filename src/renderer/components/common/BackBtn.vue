@@ -23,14 +23,14 @@ export default defineComponent({
   cursor: pointer;
   height: 50px;
   width: 50px;
-  opacity: 0.2;
+  opacity: 0.5;
   border-radius: 50%;
   border-radius: 50px;
-  background: #e0e0e0;
+  background: #999;
   box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
   text-align: center;
   i {
-    color: #999;
+    color: #eee;
     font-size: 50px;
     line-height: 50px;
   }

@@ -72,10 +72,10 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .main-wrap {
-  background-color: silver;
   width: 100%;
   height: 100%;
   position: relative;
+  background-color: #cecece;
   .btn-grid {
     position: absolute;
     left: 100px;
