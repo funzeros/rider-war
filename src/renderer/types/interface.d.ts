@@ -6,12 +6,15 @@ interface Fn<T = any, R = T> {
 interface PromiseFn<T = any, R = T> {
   (...arg: T[]): Promise<R>;
 }
-
 interface GObj<T = any> {
   [key: string]: T;
   [key: number]: T;
 }
-
+interface R<T = GObj> {
+  code: number;
+  data?: T;
+  message?: string;
+}
 interface CommonOption {
   icon: string;
   name: string;

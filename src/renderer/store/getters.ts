@@ -1,5 +1,7 @@
-const getters = {
-    templateData: (status:any) => status.template.testData
-}
+import { StateRoot } from "./type";
 
-export default getters
+const getters = {
+  token: (state: StateRoot) => state.user.userInfo.token,
+};
+
+export default getters;

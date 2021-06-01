@@ -59,6 +59,7 @@ export const useGRoute = () => {
       path,
     });
   };
+
   const replaceRoutePath = (path: string) => {
     router.replace({
       path,
@@ -67,6 +68,11 @@ export const useGRoute = () => {
   const replaceRouteParams = (params: GObj) => {
     router.replace({
       params,
+    });
+  };
+  const replaceRouteQuery = (query: GObj) => {
+    router.replace({
+      query,
     });
   };
   const mergeParams = (params: GObj) => {
@@ -125,6 +131,7 @@ export const useGRoute = () => {
     pushRoutePath,
     replaceRoutePath,
     replaceRouteParams,
+    replaceRouteQuery,
     mergeParams,
     mergeQuery,
     queryValidBoolean,

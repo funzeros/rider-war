@@ -1,17 +1,28 @@
 <template>
-  <div class="back-btn" @click.stop.capture="pushGoBack">
+  <div class="back-btn" @click.stop.capture="handleClick">
     <i class="el-icon-back"></i>
   </div>
 </template>
 <script lang="ts">
 import { useGRoute } from "@renderer/hooks/useRoute";
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   name: "GBack",
-  setup() {
-    const { pushGoBack } = useGRoute();
-    return { pushGoBack };
+  props: {
+    url: {
+      type: String,
+      default: "",
+    },
+  },
+  setup(props) {
+    const { pushGoBack, pushRouteFullpath } = useGRoute();
+    const handleClick = () => {
+      if (props.url) pushRouteFullpath(props.url);
+      else if (history.length <= 1) pushRouteFullpath("/desk_top");
+      else pushGoBack();
+    };
+    return { handleClick };
   },
 });
 </script>

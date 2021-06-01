@@ -12,11 +12,14 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import { toComputeds } from "@renderer/utils/common";
+import { useStore } from "@renderer/store";
+import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { useGRoute } from "@renderer/hooks/useRoute";
 export default defineComponent({
   setup() {
+    const store = useStore();
     const { pushRouteFullpath } = useGRoute();
     const methods = {};
     const constData = {
@@ -24,6 +27,9 @@ export default defineComponent({
         {
           name: "在线匹配",
           span: "2",
+          hidden: () => {
+            return !store.getters.token;
+          },
         },
         {
           name: "单机模式",
@@ -32,25 +38,35 @@ export default defineComponent({
         {
           name: "我的物品",
           span: "2",
+          hidden: () => {
+            return !store.getters.token;
+          },
         },
         {
-          name: "登录",
-          span: "1",
+          name: "骑士图鉴",
+          func: () => {
+            pushRouteFullpath("/book");
+          },
+          span: "2",
+        },
+        {
+          name: "退出登录",
+          span: "2",
+          hidden: () => {
+            return !store.getters.token;
+          },
+          func: () => {
+            store.dispatch(UserActionsType.LOG_OUT);
+          },
+        },
+        {
+          name: "前往登录",
+          span: "2",
+          hidden: () => {
+            return !!store.getters.token;
+          },
           func: () => {
             pushRouteFullpath("/login");
-          },
-          hidden: () => {
-            return false;
-          },
-        },
-        {
-          name: "注册",
-          span: "1",
-          func: () => {
-            pushRouteFullpath("/login?is_reg=1");
-          },
-          hidden: () => {
-            return false;
           },
         },
       ],
@@ -61,6 +77,11 @@ export default defineComponent({
           return !(m.hidden && m.hidden());
         });
       },
+    });
+    onMounted(() => {
+      if (!store.getters.token) {
+        store.dispatch(UserActionsType.TOKEN_AUTH);
+      }
     });
     return {
       ...methods,
