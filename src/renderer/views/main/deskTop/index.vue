@@ -95,6 +95,7 @@ export default defineComponent({
 .main-wrap {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   position: relative;
   background-color: #cecece;
   .btn-grid {
