@@ -24,11 +24,13 @@ export default defineComponent({
 });
 </script>
 <style lang="scss" scoped>
-$--width: 200px;
-$--height: 260px;
-$--width-cont: 190px;
-$--height-cont: 250px;
-$--offset: 5px;
+$--width: 100px;
+$--height: $--width * 1.3;
+$--offset: 2.5px;
+$--padding: $--offset * 2;
+$--width-cont: $--width - $--padding;
+$--height-cont: $--height - $--padding;
+$--img-width: $--width-cont - 15px;
 .rider-card {
   width: $--width;
   height: $--height;
@@ -36,6 +38,12 @@ $--offset: 5px;
   position: relative;
   cursor: pointer;
   user-select: none;
+  font-size: 12px;
+  transition: all 100ms 50ms linear;
+  &:hover {
+    transform: scale(1.2);
+    z-index: 9;
+  }
   &::before {
     display: block;
     content: "";
@@ -62,11 +70,11 @@ $--offset: 5px;
     flex-direction: column;
     .el-image {
       width: 100%;
-      height: 160px;
+      height: $--img-width;
     }
     .text {
       flex: 1;
-      padding: 10px;
+      padding: $--padding;
       background-color: #cddcdc;
     }
   }

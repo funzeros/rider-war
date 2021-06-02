@@ -46,7 +46,7 @@ export default defineComponent({
     box-sizing: border-box;
     padding: 20px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, 200px);
+    grid-template-columns: repeat(auto-fill, 100px);
     gap: 20px;
   }
 }

@@ -27,6 +27,9 @@ export default defineComponent({
         {
           name: "在线匹配",
           span: "2",
+          func: () => {
+            pushRouteFullpath("/battle");
+          },
           hidden: () => {
             return !store.getters.token;
           },
@@ -34,6 +37,7 @@ export default defineComponent({
         {
           name: "单机模式",
           span: "2",
+          hidden: true,
         },
         {
           name: "我的物品",
@@ -74,7 +78,9 @@ export default defineComponent({
     const computeds = toComputeds({
       btnListCp() {
         return constData.btnList.filter((m) => {
-          return !(m.hidden && m.hidden());
+          if (!m.hidden) return true;
+          if (m.hidden instanceof Function) return !m.hidden();
+          return !m.hidden;
         });
       },
     });

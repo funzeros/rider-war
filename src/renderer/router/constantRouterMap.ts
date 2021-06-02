@@ -36,6 +36,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: isMeta(),
     component: () => import("@renderer/views/main/book/index.vue"),
   },
+  {
+    path: "/battle",
+    name: "战斗",
+    meta: isMeta(true),
+    props: true,
+    component: () => import("@renderer/views/main/battle/index.vue"),
+  },
 ];
 
 export default routes;
