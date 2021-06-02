@@ -1,20 +1,21 @@
 <template>
   <div class="rider-card">
     <div class="content">
-      <el-image src=""></el-image>
-      <div class="text">假面骑士圣刃</div>
+      <el-image :src="value.url"></el-image>
+      <div class="text">{{ value.name }}</div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { Rider } from "@renderer/types/rider/dto";
+import { defineComponent, PropType } from "vue";
 
 export default defineComponent({
   name: "GRiderCard",
   props: {
     value: {
-      type: Object,
+      type: Object as PropType<Rider>,
       required: true,
     },
   },

@@ -4,8 +4,8 @@
     <div class="scorll">
       <div class="list">
         <g-rider-card
-          v-for="(item, index) of 20"
-          :key="'card_' + index"
+          v-for="item of cards"
+          :key="item.id"
           :value="item"
         ></g-rider-card>
       </div>
@@ -16,11 +16,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
+import { riderList } from "@renderer/const/riders/index";
 export default defineComponent({
   setup() {
     const constData = {
-      cards: [{}, {}],
+      cards: riderList,
     };
     return {
       ...constData,

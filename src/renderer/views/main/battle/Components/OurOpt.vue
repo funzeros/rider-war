@@ -1,7 +1,7 @@
 <template>
   <div class="opt-wrap">
     <div class="card-list">
-      <GRiderCard v-for="o of 5" :key="o"></GRiderCard>
+      <GRiderCard :value="new Rider()" v-for="o of 5" :key="o"></GRiderCard>
     </div>
     <MyInfo></MyInfo>
     <div class="action-point grid-span-2">
@@ -13,13 +13,14 @@
 import { defineComponent, ref } from "vue";
 import Progress from "./Progress.vue";
 import MyInfo from "./MyInfo.vue";
+import { Rider } from "@renderer/types/rider/dto";
 export default defineComponent({
   components: {
     Progress,
     MyInfo,
   },
   setup() {
-    return {};
+    return { Rider };
   },
 });
 </script>
