@@ -1,5 +1,10 @@
 <template>
   <div class="main-wrap">
+    <video muted="" autoplay="" preload="" loop="">
+      <source
+        src="//game.gtimg.cn/images/lol/act/a20210601luckysummer/ui/header-kv2.mp4"
+      />
+    </video>
     <div class="btn-grid">
       <el-button
         v-for="(item, index) of btnListCp"
@@ -17,10 +22,12 @@ import { toComputeds } from "@renderer/utils/common";
 import { useStore } from "@renderer/store";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { useGRoute } from "@renderer/hooks/useRoute";
+import { useGConfirm } from "@renderer/hooks/useMessage";
 export default defineComponent({
   setup() {
     const store = useStore();
     const { pushRouteFullpath } = useGRoute();
+    const { gConfirmTip } = useGConfirm();
     const methods = {};
     const constData = {
       btnList: [
@@ -59,8 +66,9 @@ export default defineComponent({
           hidden: () => {
             return !store.getters.token;
           },
-          func: () => {
-            store.dispatch(UserActionsType.LOG_OUT);
+          func: async () => {
+            const res = await gConfirmTip("是否退出登录");
+            if (res) store.dispatch(UserActionsType.LOG_OUT);
           },
         },
         {
