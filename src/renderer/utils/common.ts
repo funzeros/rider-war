@@ -142,3 +142,9 @@ export const chatCodeAtAll = (name: string) =>
     .split("")
     .map((m) => m.charCodeAt(0))
     .join("");
+
+/**
+ * dev
+ * @returns
+ */
+export const isDev = () => process.env.NODE_ENV === "development";

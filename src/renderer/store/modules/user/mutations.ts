@@ -7,6 +7,8 @@ export enum UserMutationsType {
   SET_USER_INFO = "SET_USER_INFO",
   GET_USER_INFO = "GET_USER_INFO",
   CLEAR_USER_INFO = "CLEAR_USER_INFO",
+  SET_RWWS = "SET_RWWS",
+  CLEAR_RWWS = "CLEAR_RWWS",
 }
 
 export const userMutations = {
@@ -25,5 +27,11 @@ export const userMutations = {
   [UserMutationsType.CLEAR_USER_INFO](state: StateRoot) {
     state.user.userInfo = new UserInfoDTO();
     removeStorage(UserMutationsType.SET_USER_INFO);
+  },
+  [UserMutationsType.SET_RWWS](state: StateRoot, payload: WebSocket) {
+    state.user.rwws = payload;
+  },
+  [UserMutationsType.CLEAR_RWWS](state: StateRoot) {
+    state.user.rwws = null;
   },
 };
