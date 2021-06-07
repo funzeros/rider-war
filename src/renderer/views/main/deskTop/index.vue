@@ -1,10 +1,10 @@
 <template>
   <div class="main-wrap">
-    <video muted="" autoplay="" preload="" loop="">
+    <!-- <video muted="" autoplay="" preload="" loop="">
       <source
         src="//game.gtimg.cn/images/lol/act/a20210601luckysummer/ui/header-kv2.mp4"
       />
-    </video>
+    </video> -->
     <div class="btn-grid">
       <el-button
         v-for="(item, index) of btnListCp"

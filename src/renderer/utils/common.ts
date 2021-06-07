@@ -132,3 +132,13 @@ export const dataURLtoBlob = (dataurl: string) => {
 export const tempOssUrl = (str: string) => {
   return `https://gems-oss.oss-cn-hangzhou.aliyuncs.com/DNS/img/${str}`;
 };
+
+/**
+ * 文字转码当id
+ */
+
+export const chatCodeAtAll = (name: string) =>
+  name
+    .split("")
+    .map((m) => m.charCodeAt(0))
+    .join("");

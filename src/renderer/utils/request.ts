@@ -54,8 +54,10 @@ serves.interceptors.response.use(
       gMessage("网络超时", "error");
     }
     if (err.message.includes("Network Error")) {
+      const store = useStore();
       console.log("错误回调", err);
       gMessage("服务端未启动，或网络连接错误", "error");
+      store.dispatch(UserActionsType.LOG_OUT);
     }
     return Promise.reject(err);
   }

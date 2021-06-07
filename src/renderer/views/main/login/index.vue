@@ -83,31 +83,41 @@ export default defineComponent({
       replaceRouteQuery,
       async login() {
         modelData.submitLoading = true;
-        const params = encryptStrByObj<LoginDTO>(modelData.modelRef, [
-          "password",
-        ]);
-        const { data, message } = await loginReq(params);
-        if (data) {
-          store.commit(UserMutationsType.SET_USER_INFO, data);
-          pushRouteFullpath("/");
-        } else {
-          gMessage(message, "warning");
+        try {
+          const params = encryptStrByObj<LoginDTO>(modelData.modelRef, [
+            "password",
+          ]);
+          const { data, message } = await loginReq(params);
+          if (data) {
+            store.commit(UserMutationsType.SET_USER_INFO, data);
+            pushRouteFullpath("/");
+          } else {
+            gMessage(message, "warning");
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          modelData.submitLoading = false;
         }
-        modelData.submitLoading = false;
       },
       async registry() {
         modelData.submitLoading = true;
-        const params = encryptStrByObj<RegDTO>(modelData.modelRef, [
-          "password",
-        ]);
-        const { data, message } = await registryReq(params);
-        if (data) {
-          gMessage("注册成功", "success");
-          replaceRouteQuery({ type: "login" });
-        } else {
-          gMessage(message, "warning");
+        try {
+          const params = encryptStrByObj<RegDTO>(modelData.modelRef, [
+            "password",
+          ]);
+          const { data, message } = await registryReq(params);
+          if (data) {
+            gMessage("注册成功", "success");
+            replaceRouteQuery({ type: "login" });
+          } else {
+            gMessage(message, "warning");
+          }
+        } catch (error) {
+          console.error(error);
+        } finally {
+          modelData.submitLoading = false;
         }
-        modelData.submitLoading = false;
       },
       handleSubmit(flag = true) {
         FormRef.value.validate((v: boolean) => {
