@@ -9,6 +9,8 @@ export enum UserMutationsType {
   CLEAR_USER_INFO = "CLEAR_USER_INFO",
   SET_RWWS = "SET_RWWS",
   CLEAR_RWWS = "CLEAR_RWWS",
+  SET_MATE_TIME = "SET_MATE_TIME",
+  SET_MATE_TIMER = "SET_MATE_TIMER",
 }
 
 export const userMutations = {
@@ -33,5 +35,16 @@ export const userMutations = {
   },
   [UserMutationsType.CLEAR_RWWS](state: StateRoot) {
     state.user.rwws = null;
+  },
+  [UserMutationsType.SET_MATE_TIME](state: StateRoot, payload = true) {
+    if (payload) state.user.mateTime += 1;
+    else state.user.mateTime = 0;
+  },
+  [UserMutationsType.SET_MATE_TIMER](state: StateRoot, payload?: any) {
+    if (payload) state.user.mateTimer = payload;
+    else {
+      clearInterval(state.user.mateTimer);
+      state.user.mateTimer = null;
+    }
   },
 };

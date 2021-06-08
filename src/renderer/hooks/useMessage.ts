@@ -1,6 +1,7 @@
-import { ElMessage, ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox, ElNotification } from "element-plus";
 import { ElMessageBoxOptions } from "element-plus/lib/el-message-box/src/message-box.type";
 import { IMessageOptions } from "element-plus/lib/el-message/src/types";
+import { INotificationOptions } from "element-plus/lib/el-notification/src/notification.type";
 
 enum ConfirmBoxRes {
   confirm = "confirm",
@@ -31,7 +32,32 @@ export const gMessage = (
       };
   ElMessage(opt);
 };
-
+const titleDict = {
+  success: "成功",
+  warning: "警告",
+  info: "提示",
+  error: "错误",
+  "": "",
+};
+export const gNotification = (
+  message: string,
+  type?: keyof typeof titleDict,
+  options?: INotificationOptions
+) => {
+  const opt: INotificationOptions = options
+    ? {
+        title: titleDict[type],
+        message,
+        type,
+        ...options,
+      }
+    : {
+        title: titleDict[type],
+        message,
+        type,
+      };
+  ElNotification(opt);
+};
 export const useGConfirm = () => {
   /**
    * 确认框提示

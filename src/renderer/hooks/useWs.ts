@@ -1,6 +1,18 @@
+import { useStore } from "@renderer/store";
+import { UserActionsType } from "@renderer/store/modules/user/actions";
+import { RWWSDTO } from "@renderer/types/rwws/dto";
 import { UserInfoDTO } from "@renderer/types/user/dto";
 import { isDev } from "@renderer/utils/common";
-import { gMessage } from "./useMessage";
+import { gNotification } from "./useMessage";
+
+export const wsFunc: RWWSTypes = {
+  connect: (ws, res) => {
+    gNotification(res.data.msg, res.data.type);
+  },
+  error: (ws, res) => {
+    gNotification(res.data.msg, res.data.type);
+  },
+};
 export class Rwws {
   user: UserInfoDTO;
   ws?: WebSocket;
@@ -16,21 +28,38 @@ export class Rwws {
     return ws;
   }
   connectWs() {
+    if (!this.ws) return gNotification("未创建ws服务，无法连接", "error");
     const ws = this.ws;
     ws.onopen = () => {
-      gMessage("正在连接至线上");
-      //   ws.send(WSFirstConnect(roleInfo));
+      this.WSFirstConnect(ws, this.user);
     };
     ws.onmessage = (e) => {
       const res = JSON.parse(e.data);
-      console.log(res);
-      // WSMessage(res);
+      const fn = wsFunc[res.type];
+      if (fn) {
+        fn(ws, res);
+      } else {
+        gNotification("收到一条无法执行的请求");
+      }
     };
     ws.onclose = () => {
-      gMessage("已断开在线服务");
+      const store = useStore();
+      store.dispatch(UserActionsType.CLEAR_WS);
     };
     ws.onerror = () => {
-      gMessage("很抱歉，当前设备暂不支持在线服务");
+      gNotification("很抱歉，在线服务连接异常，请稍后再试");
     };
+  }
+  JSON(options: RWWSVO) {
+    return new RWWSDTO(options).toSDTO();
+  }
+  WSFirstConnect(ws: WebSocket, user: UserInfoDTO) {
+    ws.send(
+      this.JSON({
+        data: user,
+        type: "connect",
+        sourceId: user.id,
+      })
+    );
   }
 }

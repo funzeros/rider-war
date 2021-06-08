@@ -16,32 +16,41 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: "首页",
     meta: isMeta(),
-    redirect: "/desk_top",
+    redirect: "/main",
   },
   {
-    path: "/desk_top",
-    name: "主菜单",
+    path: "/main",
+    name: "主页",
     meta: isMeta(),
-    component: () => import("@renderer/views/main/deskTop/index.vue"),
+    redirect: "/main/desk_top",
+    component: () => import("@renderer/views/main/index.vue"),
+    children: [
+      {
+        path: "desk_top",
+        name: "主菜单",
+        meta: isMeta(),
+        component: () => import("@renderer/views/main/deskTop/index.vue"),
+      },
+      {
+        path: "book",
+        name: "图鉴",
+        meta: isMeta(),
+        component: () => import("@renderer/views/main/book/index.vue"),
+      },
+      {
+        path: "battle",
+        name: "战斗",
+        meta: isMeta(true),
+        props: true,
+        component: () => import("@renderer/views/main/battle/index.vue"),
+      },
+    ],
   },
   {
     path: "/login",
     name: "登录",
     meta: isMeta(),
     component: () => import("@renderer/views/main/login/index.vue"),
-  },
-  {
-    path: "/book",
-    name: "图鉴",
-    meta: isMeta(),
-    component: () => import("@renderer/views/main/book/index.vue"),
-  },
-  {
-    path: "/battle",
-    name: "战斗",
-    meta: isMeta(true),
-    props: true,
-    component: () => import("@renderer/views/main/battle/index.vue"),
   },
 ];
 

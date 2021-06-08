@@ -19,7 +19,7 @@ export default defineComponent({
     const { pushGoBack, pushRouteFullpath } = useGRoute();
     const handleClick = () => {
       if (props.url) pushRouteFullpath(props.url);
-      else if (history.length <= 1) pushRouteFullpath("/desk_top");
+      else if (history.length <= 1) pushRouteFullpath("/");
       else pushGoBack();
     };
     return { handleClick };

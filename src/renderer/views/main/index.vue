@@ -4,12 +4,15 @@
       <component :is="Component" />
     </transition>
   </router-view>
+  <Mate></Mate>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import Mate from "./mate/index.vue";
 export default defineComponent({
-  name: "App",
+  name: "Main",
+  components: { Mate },
 });
 </script>
 

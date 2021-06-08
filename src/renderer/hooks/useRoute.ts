@@ -1,5 +1,5 @@
 import { computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { LocationQueryRaw, useRoute, useRouter } from "vue-router";
 import { isString } from "lodash";
 
 export const useGDetailRoute = () => {
@@ -59,7 +59,12 @@ export const useGRoute = () => {
       path,
     });
   };
-
+  const pushRouteName = (name: string, query?: LocationQueryRaw) => {
+    router.push({
+      name,
+      query,
+    });
+  };
   const replaceRoutePath = (path: string) => {
     router.replace({
       path,
@@ -129,6 +134,7 @@ export const useGRoute = () => {
     pushRouteParams,
     pushRouteFullpath,
     pushRoutePath,
+    pushRouteName,
     replaceRoutePath,
     replaceRouteParams,
     replaceRouteQuery,

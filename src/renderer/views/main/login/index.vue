@@ -90,6 +90,7 @@ export default defineComponent({
           const { data, message } = await loginReq(params);
           if (data) {
             store.commit(UserMutationsType.SET_USER_INFO, data);
+            await store.dispatch(UserActionsType.INIT_WS);
             pushRouteFullpath("/");
           } else {
             gMessage(message, "warning");
