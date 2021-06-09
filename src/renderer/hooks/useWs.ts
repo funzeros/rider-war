@@ -1,16 +1,32 @@
 import { useStore } from "@renderer/store";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
+import { UserMutationsType } from "@renderer/store/modules/user/mutations";
+import { UserStatus } from "@renderer/store/modules/user/state";
 import { RWWSDTO } from "@renderer/types/rwws/dto";
 import { UserInfoDTO } from "@renderer/types/user/dto";
 import { isDev } from "@renderer/utils/common";
 import { gNotification } from "./useMessage";
 
 export const wsFunc: RWWSTypes = {
-  connect: (ws, res) => {
+  connect(ws, res) {
+    gNotification(res.data.msg, res.data.type);
+    const store = useStore();
+    store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
+  },
+  error(ws, res) {
     gNotification(res.data.msg, res.data.type);
   },
-  error: (ws, res) => {
-    gNotification(res.data.msg, res.data.type);
+  mate(ws, res: RWWSVO<{ msg?: string; status: UserStatus }>) {
+    const store = useStore();
+    if (res.data.status === "matting") {
+      store.dispatch(UserActionsType.MATE_DOING);
+    } else if (res.data.status === "online") {
+      store.dispatch(UserActionsType.MATE_END);
+    } else if (res.data.status === "gaming") {
+      store.dispatch(UserActionsType.MATE_END);
+      gNotification(res.data.msg);
+    }
+    store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
   },
 };
 export class Rwws {
@@ -19,6 +35,7 @@ export class Rwws {
   constructor(user: UserInfoDTO) {
     this.user = user;
   }
+  // 注册ws
   createWs() {
     const wsUrl = isDev()
       ? "ws://localhost:10050/rwws"
@@ -27,11 +44,12 @@ export class Rwws {
     this.ws = ws;
     return ws;
   }
+  // ws连接
   connectWs() {
     if (!this.ws) return gNotification("未创建ws服务，无法连接", "error");
     const ws = this.ws;
     ws.onopen = () => {
-      this.WSFirstConnect(ws, this.user);
+      this.WSFirstConnect(ws);
     };
     ws.onmessage = (e) => {
       const res = JSON.parse(e.data);
@@ -39,27 +57,39 @@ export class Rwws {
       if (fn) {
         fn(ws, res);
       } else {
-        gNotification("收到一条无法执行的请求");
+        gNotification("收到一条无法执行的请求", "error");
       }
     };
     ws.onclose = () => {
       const store = useStore();
       store.dispatch(UserActionsType.CLEAR_WS);
+      store.dispatch(UserActionsType.MATE_END);
+      store.commit(UserMutationsType.SET_USER_STATUS, "offLine");
     };
     ws.onerror = () => {
-      gNotification("很抱歉，在线服务连接异常，请稍后再试");
+      gNotification("很抱歉，在线服务连接异常，请稍后再试", "error");
     };
   }
+  // json转str
   JSON(options: RWWSVO) {
+    options.sourceId = this.user.id;
     return new RWWSDTO(options).toSDTO();
   }
-  WSFirstConnect(ws: WebSocket, user: UserInfoDTO) {
+  // ws首次lianjie注册信息
+  WSFirstConnect(ws: WebSocket) {
     ws.send(
       this.JSON({
-        data: user,
+        data: this.user,
         type: "connect",
-        sourceId: user.id,
       })
     );
+  }
+  // ws 关闭
+  close() {
+    this.ws?.close();
+  }
+  // ws 发送消息
+  send<T>(options: RWWSVO<T>) {
+    this.ws?.send(this.JSON(options));
   }
 }

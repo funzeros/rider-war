@@ -62,9 +62,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent } from "vue";
 import SystemInformation from "./LandingPage/SystemInformation.vue";
-import { message } from "@renderer/api/login";
 const { ipcRenderer } = require("electron");
 import logo from "@renderer/assets/logo.png";
 
@@ -181,13 +180,7 @@ export default defineComponent({
       };
       ipcRenderer.invoke("open-win", data);
     },
-    getMessage() {
-      message().then((res) => {
-        this.$alert(res.data, "提示", {
-          confirmButtonText: "确定",
-        });
-      });
-    },
+    getMessage() {},
     StopServer() {
       ipcRenderer.invoke("stop-server").then((res) => {
         this.$message({

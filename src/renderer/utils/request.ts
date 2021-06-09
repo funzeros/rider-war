@@ -7,6 +7,10 @@ import { gMessage } from "@renderer/hooks/useMessage";
 const serves = axios.create({
   baseURL: process.env.BASE_API + "/api",
   timeout: 10000,
+  withCredentials: true,
+  validateStatus: (status) => {
+    return status >= 200 && status <= 600; // 全部允许, 不会遇到错误就停止
+  },
 });
 
 // 设置请求发送之前的拦截器

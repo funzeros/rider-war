@@ -1,10 +1,12 @@
 import { authTokenReq } from "@renderer/api/user";
+import useGAntiShake from "@renderer/hooks/useAntiShake";
 import { gMessage } from "@renderer/hooks/useMessage";
 import { Rwws } from "@renderer/hooks/useWs";
 import router from "@renderer/router";
 import { StateRoot } from "@renderer/store/type";
 import { ActionContext } from "vuex";
 import { UserMutationsType } from "./mutations";
+const { delayAS } = useGAntiShake();
 export enum UserActionsType {
   TOKEN_AUTH = "TOKEN_AUTH",
   LOG_OUT = "LOG_OUT",
@@ -59,23 +61,30 @@ export const userActions = {
   }: ActionContext<StateRoot, StateRoot>) {
     await dispatch(UserActionsType.CLEAR_WS);
     const rwws = new Rwws(state.user.userInfo);
-    const ws = rwws.createWs();
-    commit(UserMutationsType.SET_RWWS, ws);
+    rwws.createWs();
+    commit(UserMutationsType.SET_RWWS, rwws);
     rwws.connectWs();
   },
   async [UserActionsType.CLEAR_WS]({
     state,
     commit,
   }: ActionContext<StateRoot, StateRoot>) {
-    const ws = state.user.rwws;
-    if (ws) {
-      ws.close();
+    const rwws = state.user.rwws;
+    if (rwws && rwws.ws) {
+      rwws.close();
       commit(UserMutationsType.CLEAR_RWWS);
     }
   },
   async [UserActionsType.MATE_DOING]({
+    state,
     commit,
   }: ActionContext<StateRoot, StateRoot>) {
+    if (state.user.mateTimer) {
+      delayAS(() => {
+        gMessage("正在匹配中，请耐心等待");
+      });
+      return;
+    }
     const timer = setInterval(() => {
       commit(UserMutationsType.SET_MATE_TIME);
     }, 1000);

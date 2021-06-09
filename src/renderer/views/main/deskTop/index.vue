@@ -23,11 +23,15 @@ import { useStore } from "@renderer/store";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { useGRoute } from "@renderer/hooks/useRoute";
 import { useGConfirm } from "@renderer/hooks/useMessage";
+import useGame from "@renderer/hooks/useGame";
+
 export default defineComponent({
   setup() {
     const store = useStore();
     const { pushRouteName } = useGRoute();
     const { gConfirmTip } = useGConfirm();
+    const { gameMatting } = useGame();
+
     const methods = {};
     const constData = {
       btnList: [
@@ -35,7 +39,7 @@ export default defineComponent({
           name: "在线匹配",
           span: "2",
           func: () => {
-            store.dispatch(UserActionsType.MATE_DOING);
+            gameMatting("matting");
           },
           hidden: () => {
             return !(store.getters.token && store.getters.rwws);

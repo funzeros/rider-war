@@ -12,13 +12,14 @@
 </template>
 
 <script lang="ts">
+import useGame from "@renderer/hooks/useGame";
 import { useStore } from "@renderer/store";
-import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { computed, defineComponent } from "vue";
 
 export default defineComponent({
   setup() {
     const store = useStore();
+    const { gameMatting } = useGame();
     const mateTime = computed(() => {
       const num = store.state.user.mateTime;
       const s = num % 60;
@@ -29,7 +30,7 @@ export default defineComponent({
       return store.state.user.mateTimer;
     });
     const handleCancel = () => {
-      store.dispatch(UserActionsType.MATE_END);
+      gameMatting("online");
     };
     return { mateTime, mateTimer, handleCancel };
   },

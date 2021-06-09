@@ -5,6 +5,7 @@ interface RWWSTypes {
   close?: RWFn;
   sys?: RWFn;
   error?: RWFn;
+  mate?: RWFn;
 }
 type RWWSType = keyof RWWSTypes;
 
