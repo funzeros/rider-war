@@ -16,15 +16,16 @@ export const wsFunc: RWWSTypes = {
   error(ws, res) {
     gNotification(res.data.msg, res.data.type);
   },
-  mate(ws, res: RWWSVO<{ msg?: string; status: UserStatus }>) {
+  mate(ws, res: RWWSVO<{ msg?: string; status: UserStatus; roomId?: number }>) {
     const store = useStore();
     if (res.data.status === "matting") {
       store.dispatch(UserActionsType.MATE_DOING);
     } else if (res.data.status === "online") {
       store.dispatch(UserActionsType.MATE_END);
     } else if (res.data.status === "gaming") {
-      store.dispatch(UserActionsType.MATE_END);
       gNotification(res.data.msg);
+      store.dispatch(UserActionsType.MATE_END);
+      store.dispatch(UserActionsType.GAME_START, { roomId: res.data.roomId });
     }
     store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
   },

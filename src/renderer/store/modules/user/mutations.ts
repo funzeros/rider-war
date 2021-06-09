@@ -1,9 +1,14 @@
 import { Rwws } from "@renderer/hooks/useWs";
+import router from "@renderer/router";
 import { StateRoot } from "@renderer/store/type";
 import { UserInfoDTO } from "@renderer/types/user/dto";
-import { objEncodeToStr, strDecodeToObj } from "@renderer/utils/common";
+import {
+  mergeProperties,
+  objEncodeToStr,
+  strDecodeToObj,
+} from "@renderer/utils/common";
 import { getStorage, removeStorage, setStorage } from "@renderer/utils/storage";
-import { UserStatus } from "./state";
+import { GameRoom, UserStatus } from "./state";
 
 export enum UserMutationsType {
   SET_USER_INFO = "SET_USER_INFO",
@@ -14,6 +19,7 @@ export enum UserMutationsType {
   SET_MATE_TIME = "SET_MATE_TIME",
   SET_MATE_TIMER = "SET_MATE_TIMER",
   SET_USER_STATUS = "SET_USER_STATUS",
+  SET_ROOM = "SET_ROOM",
 }
 
 export const userMutations = {
@@ -52,5 +58,9 @@ export const userMutations = {
   },
   [UserMutationsType.SET_USER_STATUS](state: StateRoot, payload: UserStatus) {
     state.user.userStatus = payload;
+  },
+  [UserMutationsType.SET_ROOM](state: StateRoot, payload: GameRoom) {
+    state.user.room = mergeProperties(state.user.room, payload);
+    router.push(`/main/battle/${payload.roomId}`);
   },
 };

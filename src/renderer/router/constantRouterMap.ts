@@ -38,7 +38,7 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@renderer/views/main/book/index.vue"),
       },
       {
-        path: "battle",
+        path: "battle/:id",
         name: "战斗",
         meta: isMeta(true),
         props: true,

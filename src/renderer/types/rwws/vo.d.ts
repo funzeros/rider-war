@@ -6,6 +6,7 @@ interface RWWSTypes {
   sys?: RWFn;
   error?: RWFn;
   mate?: RWFn;
+  gameStart?: RWFn;
 }
 type RWWSType = keyof RWWSTypes;
 

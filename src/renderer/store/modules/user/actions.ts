@@ -6,6 +6,7 @@ import router from "@renderer/router";
 import { StateRoot } from "@renderer/store/type";
 import { ActionContext } from "vuex";
 import { UserMutationsType } from "./mutations";
+import { GameRoom } from "./state";
 const { delayAS } = useGAntiShake();
 export enum UserActionsType {
   TOKEN_AUTH = "TOKEN_AUTH",
@@ -15,6 +16,7 @@ export enum UserActionsType {
   CLEAR_WS = "CLEAR_WS",
   MATE_DOING = "MATE_DOING",
   MATE_END = "MATE_END",
+  "GAME_START" = "GAME_START",
 }
 export const userActions = {
   async [UserActionsType.TOKEN_AUTH]({
@@ -95,5 +97,11 @@ export const userActions = {
   }: ActionContext<StateRoot, StateRoot>) {
     commit(UserMutationsType.SET_MATE_TIMER);
     commit(UserMutationsType.SET_MATE_TIME, false);
+  },
+  async [UserActionsType.GAME_START](
+    { commit }: ActionContext<StateRoot, StateRoot>,
+    room: GameRoom
+  ) {
+    commit(UserMutationsType.SET_ROOM, room);
   },
 };

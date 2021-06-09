@@ -51,15 +51,4 @@ export default defineComponent({
     }
   }
 }
-.el-descriptions {
-  :deep(.el-descriptions__body) {
-    background-color: transparent;
-  }
-}
-.el-progress {
-  width: 100px;
-  :deep(.el-progress-bar__outer) {
-    background-color: #f8d4d4;
-  }
-}
 </style>

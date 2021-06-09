@@ -1,6 +1,6 @@
 <template>
   <div class="info">
-    <el-descriptions column="1">
+    <el-descriptions :column="1">
       <el-descriptions-item label="用户名">Gems</el-descriptions-item>
       <el-descriptions-item label="行动力">7/10</el-descriptions-item>
       <el-descriptions-item label="生命值">50</el-descriptions-item>
