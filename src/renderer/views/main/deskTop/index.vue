@@ -24,7 +24,6 @@ import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { useGRoute } from "@renderer/hooks/useRoute";
 import { useGConfirm } from "@renderer/hooks/useMessage";
 import useGame from "@renderer/hooks/useGame";
-
 export default defineComponent({
   setup() {
     const store = useStore();

@@ -176,6 +176,11 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
+"@types/animejs@^3.1.3":
+  version "3.1.3"
+  resolved "https://registry.nlark.com/@types/animejs/download/@types/animejs-3.1.3.tgz#da720ea98272b3e29f595bb15efccadb9dc04dd4"
+  integrity sha1-2nIOqYJys+KfWVuxXvzK253ATdQ=
+
 "@types/debug@^4.1.5":
   version "4.1.5"
   resolved "https://registry.npm.taobao.org/@types/debug/download/@types/debug-4.1.5.tgz?cache=0&sync_timestamp=1613378250986&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fdebug%2Fdownload%2F%40types%2Fdebug-4.1.5.tgz#b14efa8852b7768d898906613c23f688713e02cd"
@@ -402,6 +407,11 @@ ajv@^6.10.0, ajv@^6.12.0:
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
+
+animejs@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.npm.taobao.org/animejs/download/animejs-3.2.1.tgz#de9fe2e792f44a777a7fdf6ae160e26604b0cdda"
+  integrity sha1-3p/i55L0Snd6f99q4WDiZgSwzdo=
 
 ansi-align@^3.0.0:
   version "3.0.0"
