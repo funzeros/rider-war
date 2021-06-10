@@ -1,7 +1,7 @@
 .DS_Store
 node_modules/
-build/win-unpacked/
-build/win-ia32-unpacked/
+/build/
+!build/icons
 dist/electron/main
 dist/electron/renderer
 dist/web

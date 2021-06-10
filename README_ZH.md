@@ -1,4 +1,4 @@
-# Rider-war
+# RiderWar
 
 #### 如何安装
 

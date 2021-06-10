@@ -31,7 +31,9 @@ const config = defineConfig({
     emptyOutDir: true,
   },
   plugins: [vuePlugin()],
-  optimizeDeps: {},
+  optimizeDeps: {
+    include: ["axios", "md5", "vue"],
+  },
   publicDir: resolve("static"),
 });
 

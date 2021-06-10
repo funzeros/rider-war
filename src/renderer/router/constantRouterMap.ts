@@ -8,7 +8,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/version",
-    name: "总览",
+    name: "系统版本",
     meta: isMeta(),
     component: () => import("@renderer/components/LandingPage.vue"),
   },

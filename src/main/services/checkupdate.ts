@@ -6,7 +6,7 @@ import { ipcMain, BrowserWindow } from "electron";
 class Update {
   public mainWindow: BrowserWindow;
   constructor(mainWindow: BrowserWindow) {
-    autoUpdater.setFeedURL("http://127.0.0.1:10050/");
+    autoUpdater.setFeedURL("http://47.103.218.109:10050");
     this.mainWindow = mainWindow;
     // 注册事件
     this.checkUpdate();

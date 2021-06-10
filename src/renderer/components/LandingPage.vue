@@ -256,7 +256,7 @@ body {
 #logo {
   height: auto;
   margin-bottom: 20px;
-  width: 420px;
+  width: 100px;
 }
 
 main {
