@@ -1,35 +1,22 @@
 <template>
   <div class="battle-wrap">
     <!-- 对方状态区 -->
-    <OpposeState class="oppose-state"></OpposeState>
+    <OpposeState class="oppose-state" :value="battleInfo.red"></OpposeState>
     <!-- 战斗区 -->
     <div class="cards-area">
       <CardsArea></CardsArea>
     </div>
     <!-- 我方操作区 -->
     <div class="our-opt">
-      <OurOpt></OurOpt>
+      <OurOpt :value="battleInfo.blue"></OurOpt>
     </div>
     <!--TODO:临时返回，完成后删除  -->
     <g-back></g-back>
   </div>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import OurOpt from "./Components/OurOpt.vue";
-import CardsArea from "./Components/CardsArea.vue";
-import OpposeState from "./Components/OpposeState.vue";
-
-export default defineComponent({
-  components: {
-    OurOpt,
-    CardsArea,
-    OpposeState,
-  },
-  setup() {
-    return {};
-  },
-});
+<script lang="ts" >
+import script from "./index.script";
+export default script;
 </script>
 <style lang="scss" scoped>
 .battle-wrap {

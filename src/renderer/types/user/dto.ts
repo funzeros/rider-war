@@ -7,7 +7,7 @@ export class RegDTO extends LoginDTO {
   confirmPassword = "";
 }
 
-export class UserInfoDTO {
+export class UserInfoDTO implements UserInfoVO {
   id = 0;
   name = "";
   token = "";

@@ -3,18 +3,25 @@
     <div class="card-list">
       <GRiderCard :value="o" v-for="o of riderList" :key="o.id"></GRiderCard>
     </div>
-    <MyInfo></MyInfo>
+    <MyInfo :value="value"></MyInfo>
     <div class="action-point grid-span-2">
       <Progress :value="7" :maxValue="10"></Progress>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, PropType, ref } from "vue";
 import Progress from "./Progress.vue";
 import MyInfo from "./MyInfo.vue";
 import { riderList } from "@renderer/const/riders";
+import { PlayerDTO } from "@renderer/types/game/dto";
 export default defineComponent({
+  props: {
+    value: {
+      type: Object as PropType<PlayerDTO>,
+      default: new PlayerDTO(),
+    },
+  },
   components: {
     Progress,
     MyInfo,

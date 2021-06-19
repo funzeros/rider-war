@@ -1,3 +1,4 @@
+import router from "@renderer/router";
 import { useStore } from "@renderer/store";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { UserMutationsType } from "@renderer/store/modules/user/mutations";
@@ -12,6 +13,9 @@ export const wsFunc: RWWSTypes = {
     gNotification(res.data.msg, res.data.type);
     const store = useStore();
     store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
+    if (res.data.status === "gaming") {
+      store.dispatch(UserActionsType.GAME_START, { roomId: res.data.roomId });
+    }
   },
   error(ws, res) {
     gNotification(res.data.msg, res.data.type);
@@ -29,10 +33,16 @@ export const wsFunc: RWWSTypes = {
     }
     store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
   },
+  gameStart(ws, res: RWWSVO) {
+    const store = useStore();
+    const gameRuntime = store.state.user.rwws.gameRuntime;
+    gameRuntime.initGame(res.data);
+  },
 };
 export class Rwws {
   user: UserInfoDTO;
   ws?: WebSocket;
+  gameRuntime: any;
   constructor(user: UserInfoDTO) {
     this.user = user;
   }
@@ -66,6 +76,7 @@ export class Rwws {
       store.dispatch(UserActionsType.CLEAR_WS);
       store.dispatch(UserActionsType.MATE_END);
       store.commit(UserMutationsType.SET_USER_STATUS, "offLine");
+      router.push({ name: "主菜单" });
     };
     ws.onerror = () => {
       gNotification("很抱歉，在线服务连接异常，请稍后再试", "error");

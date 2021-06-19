@@ -14,6 +14,19 @@ const useGame = () => {
         },
       });
     },
+    gameStart(gameRuntime: GObj) {
+      const rwws = store.state.user.rwws;
+      store.state.user.rwws.gameRuntime = gameRuntime;
+      rwws.send<{ roomId: number }>({
+        type: "gameStart",
+        data: {
+          roomId: store.state.user.room.roomId,
+        },
+      });
+    },
+    gameClear() {
+      store.state.user.rwws.gameRuntime = null;
+    },
   };
 };
 

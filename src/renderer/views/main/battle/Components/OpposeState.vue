@@ -1,28 +1,39 @@
 <template>
   <div class="state-wrap">
     <div>
-      <span> 用户名 </span>
-      <div>abcd</div>
+      <span>用户名</span>
+      <div>{{ value.name }}</div>
     </div>
     <div>
-      <span> 生命值 </span>
+      <span>生命值</span>
       <el-progress
+        style="flex: 1"
         :text-inside="true"
         :stroke-width="26"
-        :percentage="60"
+        :percentage="percentage"
         color="#cc1616"
       >
-        30/50
+        {{ value.currentHP }}/{{ value.maxHP }}
       </el-progress>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { PlayerDTO } from "@renderer/types/game/dto";
+import { computed, defineComponent, PropType } from "vue";
 
 export default defineComponent({
-  setup() {
-    return {};
+  props: {
+    value: {
+      type: Object as PropType<PlayerDTO>,
+      default: new PlayerDTO(),
+    },
+  },
+  setup(props) {
+    const percentage = computed(() => {
+      return Math.round((props.value.currentHP / props.value.maxHP) * 100);
+    });
+    return { percentage };
   },
 });
 </script>
@@ -49,6 +60,11 @@ export default defineComponent({
     &:not(:last-of-type) {
       margin-right: 20px;
     }
+  }
+}
+.el-progress {
+  :deep(.el-progress-bar__outer) {
+    background-color: #f8d4d4;
   }
 }
 </style>
