@@ -1,16 +1,18 @@
+import { img } from "@renderer/assets/resource";
 import { Rider } from "@renderer/types/rider/dto";
 import { EffectsKey } from "../effects";
 
 /**
  * 骑士参数类型
  */
-type RiderParams = [string, EffectsKey[]];
+type RiderParams = [string, string, EffectsKey[]];
 
 /**
  * 骑士参数集合
  */
 const riderListParams: GObj<RiderParams> = {
-  假面骑士圣刃: ["", ["烈火拔刀"]],
+  勇气飞龙: ["圣刃", img.rider.saber_01, ["烈火拔刀"]],
+  狮子战记: ["剑锋", img.rider.blades_01, []],
 };
 
 /**

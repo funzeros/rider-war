@@ -33,9 +33,8 @@ export const wsFunc: RWWSTypes = {
     }
     store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
   },
-  gameStart(ws, res: RWWSVO) {
-    const store = useStore();
-    const gameRuntime = store.state.user.rwws.gameRuntime;
+  gameStart(ws, res: RWWSVO, rwws) {
+    const gameRuntime = rwws.gameRuntime;
     gameRuntime.initGame(res.data);
   },
 };
@@ -66,7 +65,7 @@ export class Rwws {
       const res = JSON.parse(e.data);
       const fn = wsFunc[res.type];
       if (fn) {
-        fn(ws, res);
+        fn(ws, res, this);
       } else {
         gNotification("收到一条无法执行的请求", "error");
       }
@@ -87,7 +86,7 @@ export class Rwws {
     options.sourceId = this.user.id;
     return new RWWSDTO(options).toSDTO();
   }
-  // ws首次lianjie注册信息
+  // ws首次连接注册信息
   WSFirstConnect(ws: WebSocket) {
     ws.send(
       this.JSON({

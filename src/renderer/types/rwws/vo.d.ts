@@ -1,4 +1,4 @@
-type RWFn = (ws: WebSocket, res: RWWSVO) => void;
+type RWFn = (ws: WebSocket, res: RWWSVO, rwws: any) => void;
 interface RWWSTypes {
   connect?: RWFn;
   msg?: RWFn;

@@ -1,8 +1,10 @@
 <template>
-  <div class="rider-card">
-    <div class="content">
-      <el-image :src="value.url"></el-image>
-      <div class="text">{{ value.name }}</div>
+  <div class="rider-card-wrap" :riderName="value.rider">
+    <div class="rider-card">
+      <div class="content">
+        <el-image :src="value.url" fit="contain"></el-image>
+        <div class="text">{{ value.name }}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,19 +34,37 @@ $--padding: $--offset * 2;
 $--width-cont: $--width - $--padding;
 $--height-cont: $--height - $--padding;
 $--img-width: $--width-cont - 15px;
+.rider-card-wrap {
+  user-select: none;
+  position: relative;
+  transition: all 100ms 50ms linear;
+  &:hover {
+    transform: scale(1.2);
+    z-index: 9;
+  }
+  &::after {
+    cursor: pointer;
+    content: attr(riderName);
+    display: block;
+    position: absolute;
+    top: 0px;
+    font-size: 20px;
+    z-index: 2;
+    line-height: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+    text-shadow: 0 0 3px #09203f;
+  }
+}
 .rider-card {
   width: $--width;
   height: $--height;
   background-image: linear-gradient(-45deg, #09203f 0%, #537895 100%);
   position: relative;
   cursor: pointer;
-  user-select: none;
   font-size: 12px;
-  transition: all 100ms 50ms linear;
-  &:hover {
-    transform: scale(1.2);
-    z-index: 9;
-  }
   &::before {
     display: block;
     content: "";

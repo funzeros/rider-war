@@ -1,5 +1,5 @@
 <template>
-  <div class="battle-wrap">
+  <div class="battle-wrap" :turnText="actionFlag ? '你的回合' : '对方回合'">
     <!-- 对方状态区 -->
     <OpposeState class="oppose-state" :value="battleInfo.red"></OpposeState>
     <!-- 战斗区 -->
@@ -28,6 +28,19 @@ export default script;
   grid-template-rows: 1fr 180px;
   gap: 10px;
   position: relative;
+  &::before {
+    pointer-events: none;
+    content: attr(turnText);
+    display: inline;
+    color: rgba($color: #fff, $alpha: 0.1);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%);
+    line-height: 0;
+    font-size: 90px;
+    font-weight: 900;
+  }
 }
 .oppose-state {
   position: absolute;

@@ -4,7 +4,9 @@
       <el-descriptions-item label="用户名">{{
         value.name
       }}</el-descriptions-item>
-      <el-descriptions-item label="行动力">7/10</el-descriptions-item>
+      <el-descriptions-item label="行动力"
+        >{{ value.currentAct }}/{{ value.maxAct }}</el-descriptions-item
+      >
       <el-descriptions-item label="生命值">{{
         value.currentHP
       }}</el-descriptions-item>

@@ -26,6 +26,7 @@ export default defineComponent({
     const modelData = reactive({
       roomId: 0,
       battleInfo: new BattleDTO(),
+      actionFlag: false,
     });
     const methods = {};
     const userInfo = computed(() => {
@@ -47,6 +48,7 @@ export default defineComponent({
               room.player[key]
             );
         }
+        modelData.actionFlag = room.turnId === id;
       },
     };
     onMounted(() => {

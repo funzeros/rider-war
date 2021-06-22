@@ -5,7 +5,7 @@
     </div>
     <MyInfo :value="value"></MyInfo>
     <div class="action-point grid-span-2">
-      <Progress :value="7" :maxValue="10"></Progress>
+      <Progress :value="value.currentAct" :maxValue="value.maxAct"></Progress>
     </div>
   </div>
 </template>

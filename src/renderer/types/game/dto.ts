@@ -1,8 +1,10 @@
 import { UserInfoDTO } from "../user/dto";
 
-export class PlayerDTO extends UserInfoDTO {
+export class PlayerDTO extends UserInfoDTO implements PlayerVO {
   maxHP = 50;
   currentHP = 0;
+  maxAct = 10;
+  currentAct = 0;
 }
 export class BattleDTO {
   red = new PlayerDTO();
