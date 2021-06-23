@@ -3,6 +3,8 @@ interface PlayerVO extends UserInfoVO {
   currentHP: number;
   maxAct: number;
   currentAct: number;
+  handCards: string[];
+  libCards: string[];
 }
 interface Room {
   player: GObj<PlayerVO>;

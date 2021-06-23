@@ -7,10 +7,11 @@ const useGame = () => {
     gameMatting(status: UserStatus) {
       if (store.state.user.userStatus === status) return;
       const rwws = store.state.user.rwws;
-      rwws.send<{ status: UserStatus }>({
+      rwws.send<{ status: UserStatus; cards: string[] }>({
         type: "mate",
         data: {
           status: status,
+          cards: store.state.user.userCards,
         },
       });
     },
@@ -29,5 +30,10 @@ const useGame = () => {
     },
   };
 };
-
+export const gameGlobal = {
+  cardMoveX: 0,
+  cardMoveY: 0,
+  isCardDrag: false,
+  canDrag: false,
+};
 export default useGame;

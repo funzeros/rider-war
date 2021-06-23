@@ -36,9 +36,9 @@ export default script;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%);
+    transform: translate(-50%, calc(-50% - 42px));
     line-height: 0;
-    font-size: 90px;
+    font-size: 70px;
     font-weight: 900;
   }
 }

@@ -16,7 +16,7 @@ export enum UserActionsType {
   CLEAR_WS = "CLEAR_WS",
   MATE_DOING = "MATE_DOING",
   MATE_END = "MATE_END",
-  "GAME_START" = "GAME_START",
+  GAME_START = "GAME_START",
 }
 export const userActions = {
   async [UserActionsType.TOKEN_AUTH]({

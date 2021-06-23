@@ -9,7 +9,7 @@ import {
 import OurOpt from "./Components/OurOpt.vue";
 import CardsArea from "./Components/CardsArea.vue";
 import OpposeState from "./Components/OpposeState.vue";
-import useGame from "@renderer/hooks/useGame";
+import useGame, { gameGlobal } from "@renderer/hooks/useGame";
 import { useStore } from "@renderer/store";
 import { BattleDTO, PlayerDTO } from "@renderer/types/game/dto";
 import { mergeProperties } from "@renderer/utils/common";
@@ -32,6 +32,7 @@ export default defineComponent({
     const userInfo = computed(() => {
       return store.state.user.userInfo;
     });
+
     const gameRuntime = {
       initGame({ room }: { room: Room }) {
         const id = userInfo.value.id;
@@ -49,13 +50,27 @@ export default defineComponent({
             );
         }
         modelData.actionFlag = room.turnId === id;
+        gameGlobal.canDrag = modelData.actionFlag;
       },
     };
     onMounted(() => {
       gameStart(gameRuntime);
+      window.onmousemove = (e) => {
+        if (gameGlobal.isCardDrag) {
+          gameGlobal.cardMoveX = e.pageX;
+          gameGlobal.cardMoveY = e.pageY;
+        }
+      };
+      window.onmouseup = (e) => {
+        if (gameGlobal.isCardDrag) {
+          gameGlobal.isCardDrag = false;
+        }
+      };
     });
     onUnmounted(() => {
       gameClear();
+      window.onmousemove = undefined;
+      window.onmouseup = undefined;
     });
     return {
       ...toRefs(modelData),

@@ -41,7 +41,6 @@ const routes: Array<RouteRecordRaw> = [
         path: "battle/:id",
         name: "战斗",
         meta: isMeta(true),
-        props: true,
         component: () => import("@renderer/views/main/battle/index.vue"),
       },
     ],

@@ -13,6 +13,7 @@ export interface UserState {
   mateTime: number;
   mateTimer: any;
   room?: GameRoom;
+  userCards: string[];
 }
 
 const user: UserState = {
@@ -24,6 +25,15 @@ const user: UserState = {
   room: {
     roomId: 0,
   },
+  userCards: [
+    "223072099521191276683913440857",
+    "210733815529422233762511235760",
+    "2099221073384632084822522370273107028783",
+    "228232107329572274943107035805",
+    "21073260252950339134245253277320256",
+    "21073383782772126862324353357619982266843864729305",
+    "295792107337034246943913440857",
+  ],
 };
 
 export default user;
