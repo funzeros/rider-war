@@ -16,14 +16,13 @@
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
-
 export default defineComponent({
   setup() {
-    const oStyle = (length, index) => {
-      const center = length / 2;
+    const oStyle = (length: number, index: number) => {
+      const center = (length - 1) / 2;
       const offset = Math.floor(Math.abs(index - center));
       return {
-        transform: `translateY(${-30 * offset}px)`,
+        transform: `translateY(${Math.floor(-6 * Math.pow(offset, 2))}px)`,
       };
     };
     return { oStyle };
@@ -42,12 +41,6 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  .my {
-    &:hover {
-      box-shadow: 0 0 40px 0px rgba($color: #fff, $alpha: 0.2) inset,
-        0 0 1px 1px rgba($color: #fff, $alpha: 0.2) inset;
-    }
   }
 }
 .demo {
