@@ -1,5 +1,5 @@
 <template>
-  <div class="info">
+  <div class="info my-battle-info">
     <el-descriptions :column="1">
       <el-descriptions-item label="用户名">{{
         value.name
@@ -55,6 +55,52 @@ export default defineComponent({
 .el-progress {
   :deep(.el-progress-bar__outer) {
     background-color: #f8d4d4;
+  }
+}
+.my-battle-info {
+  position: relative;
+}
+</style>
+<style lang="scss">
+.my-battle-msg-box {
+  padding: 10px 10px 20px;
+  background: #333;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+  clip-path: polygon(
+    0% 0%,
+    100% 0%,
+    100% calc(100% - 10px),
+    calc(100% - 10px) calc(100% - 10px),
+    calc(100% - 10px) 100%,
+    calc(100% - 20px) calc(100% - 10px),
+    0% calc(100% - 10px)
+  );
+  pointer-events: none;
+  z-index: 2;
+  opacity: 1;
+  animation: scaleJump 100ms ease forwards, fadeOut 1s 1s ease-out forwards;
+  transform-origin: right bottom;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes scaleJump {
+  from {
+    transform: scale(0) translateX(calc(-100% + 20px));
+  }
+  to {
+    transform: scale(1) translateX(calc(-100% + 20px));
   }
 }
 </style>

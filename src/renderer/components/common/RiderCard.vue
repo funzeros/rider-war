@@ -44,7 +44,7 @@ export default defineComponent({
     },
   },
   setup(props) {
-    const { cost, hp, atk, def, dex, skl } = props.value;
+    const { cost, hp, atk, def, dex } = props.value;
     const attrList = [
       {
         prop: "cost",

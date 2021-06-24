@@ -1,5 +1,6 @@
 import { effects, EffectsKey } from "@renderer/const/effects";
 import { chatCodeAtAll } from "@renderer/utils/common";
+import { GMath } from "@renderer/utils/custom";
 
 export class Rider {
   name: string; // 卡名
@@ -11,8 +12,7 @@ export class Rider {
   atk: number; // 攻
   def: number; // 甲
   dex: number; // 速
-  skl: number; // 技
-  effects: EffectVO[]; // 能力效果
+  effects: EffectsKey[]; // 能力效果
   constructor(
     name: string,
     rider: string,
@@ -24,13 +24,27 @@ export class Rider {
     this.rider = rider;
     this.id = chatCodeAtAll(rider + name);
     this.url = url;
-    this.effects = effectsKeys.map((m) => effects[m]);
-    const [cost, hp, atk, def, dex, skl] = attrs;
+    this.effects = effectsKeys;
+    const [cost, hp, atk, def, dex] = attrs;
     this.cost = cost;
     this.hp = hp;
     this.atk = atk;
     this.def = def;
     this.dex = dex;
-    this.skl = skl;
+  }
+  createInstance(): RiderInstance<EffectsKey> {
+    return {
+      id: this.id + GMath.randomStr(),
+      name: this.name,
+      rider: this.rider,
+      url: this.url,
+      cost: this.cost,
+      mHp: this.hp,
+      cHp: this.hp,
+      atk: this.atk,
+      def: this.def,
+      dex: this.dex,
+      effects: this.effects,
+    };
   }
 }

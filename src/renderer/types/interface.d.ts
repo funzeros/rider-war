@@ -62,8 +62,3 @@ interface DateCell {
   day: string;
   isSelected: boolean;
 }
-
-interface BattleVO {}
-interface Window {
-  Battle: BattleVO;
-}

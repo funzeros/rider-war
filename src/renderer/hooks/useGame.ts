@@ -30,10 +30,25 @@ const useGame = () => {
     },
   };
 };
+
 export const gameGlobal = {
   cardMoveX: 0,
   cardMoveY: 0,
   isCardDrag: false,
   canDrag: false,
 };
+
+export const gMyMsg = (innerStr: string) => {
+  const el = document.querySelector(".my-battle-info");
+  const els = document.querySelectorAll(".my-battle-msg-box");
+  els.forEach((m) => {
+    el.removeChild(m);
+  });
+  const msgBox = document.createElement("div");
+  msgBox.classList.add("my-battle-msg-box");
+  msgBox.innerHTML = innerStr;
+  el.appendChild(msgBox);
+  msgBox.style.top = `${-(10 + msgBox.offsetHeight)}px`;
+};
+
 export default useGame;

@@ -1,31 +1,92 @@
 <template>
   <div class="area-wrap">
     <div class="placehoder"></div>
-    <div class="other">
-      <div
-        class="demo"
-        :style="oStyle(9, i)"
-        v-for="(o, i) of 9"
-        :key="o"
-      ></div>
-    </div>
-    <div class="my">
-      <div class="demo" v-for="o of 9" :key="o"></div>
-    </div>
+    <transition-group
+      class="other"
+      tag="div"
+      @enter="enter"
+      @before-enter="beforeEnter"
+      @after-enter="afterEnter"
+    >
+      <RiderInstance
+        v-for="(o, i) of otherRiders"
+        :style="oStyle(otherRiders.length, i)"
+        :key="o.id"
+        :value="o"
+      ></RiderInstance>
+    </transition-group>
+    <transition-group
+      class="my"
+      tag="div"
+      @enter="enter"
+      @before-enter="beforeEnter"
+      @after-enter="afterEnter"
+    >
+      <RiderInstance
+        v-for="o of myRiders"
+        :key="o.id"
+        :value="o"
+        canDrag
+      ></RiderInstance>
+      <div key="my-card-area" class="my-card-area breath"></div>
+    </transition-group>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { BattleDTO } from "@renderer/types/game/dto";
+import anime from "animejs";
+import { computed, defineComponent, PropType } from "vue";
+import RiderInstance from "./RiderInstance.vue";
 export default defineComponent({
-  setup() {
-    const oStyle = (length: number, index: number) => {
-      const center = (length - 1) / 2;
-      const offset = Math.floor(Math.abs(index - center));
-      return {
-        transform: `translateY(${Math.floor(-6 * Math.pow(offset, 2))}px)`,
-      };
+  components: {
+    RiderInstance,
+  },
+  props: {
+    value: {
+      type: Object as PropType<BattleDTO>,
+      default: () => new BattleDTO(),
+    },
+  },
+  setup(props) {
+    const myRiders = computed(() => {
+      return props.value.blue.riderCards;
+    });
+    const otherRiders = computed(() => {
+      return props.value.red.riderCards;
+    });
+    const methods = {
+      oStyle(length: number, index: number) {
+        const center = (length - 1) / 2;
+        const offset = Math.floor(Math.abs(index - center));
+        return {
+          transform: `translateY(${Math.floor(-6 * Math.pow(offset, 2))}px)`,
+        };
+      },
+      enter(el, done) {
+        anime({
+          targets: el,
+          scale: [
+            { value: 1.3, duration: 10 },
+            { value: 1, duration: 200 },
+          ],
+          opacity: [{ value: 1, duration: 300 }],
+          easing: "easeOutElastic(1, .8)",
+          complete: () => {
+            done();
+          },
+        });
+      },
+      beforeEnter(el) {
+        el.style["transition"] = "all 0s";
+        el.style.opacity = 0;
+      },
+      afterEnter(el) {
+        el.style["transition"] = "all 0.2s";
+        el.style.opacity = 1;
+        el.style.transform = "";
+      },
     };
-    return { oStyle };
+    return { otherRiders, myRiders, ...methods };
   },
 });
 </script>
@@ -41,14 +102,22 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
   }
 }
-.demo {
-  width: 100px;
-  height: 120px;
-  background: #fff;
-  &:not(:first-of-type) {
-    margin-left: 30px;
+.my-card-area {
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 8;
+  &.active {
+    box-shadow: 0 0 40px 0 #9f9 inset, 0 0 2px 2px #9f9 inset;
   }
+}
+.breath {
+  box-shadow: 0 0 40px 0 #fff inset, 0 0 2px 2px #fff inset;
 }
 </style>

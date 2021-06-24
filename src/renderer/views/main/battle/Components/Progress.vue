@@ -43,6 +43,7 @@ export default defineComponent({
   box-sizing: border-box;
   padding: 4px;
   & > div {
+    opacity: 0.8;
     transition: background-color 100ms linear;
   }
 }

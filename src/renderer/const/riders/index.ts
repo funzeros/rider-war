@@ -11,13 +11,13 @@ type RiderParams = [string, string, EffectsKey[], RiderAttrs];
  * 骑士参数集合
  */
 const riderListParams: GObj<RiderParams> = {
-  勇气飞龙: ["圣刃", img.rider.saber_01, ["烈火拔刀"], [3, 4, 3, 2, 3, 3]],
-  狮子战记: ["剑锋", img.rider.blades_01, [], [3, 4, 3, 2, 3, 3]],
-  阿兰基那神灯: ["刀剑", img.rider.espada_01, [], [3, 4, 3, 2, 3, 3]],
-  玄武神话: ["大剑", img.rider.buster_01, [], [3, 4, 3, 2, 3, 3]],
-  猿飞忍者传: ["剑斩", img.rider.kenzan_01, [], [3, 4, 3, 2, 3, 3]],
-  汉森纳茨与格雷特: ["剑闪", img.rider.slash_01, [], [3, 4, 3, 2, 3, 3]],
-  邪恶飞龙: ["王剑", img.rider.calibur_01, [], [3, 4, 3, 2, 3, 3]],
+  勇气飞龙: ["圣刃", img.rider.saber_01, ["烈火拔刀"], [3, 4, 3, 2, 3]],
+  狮子战记: ["剑锋", img.rider.blades_01, [], [3, 4, 3, 2, 3]],
+  阿兰基那神灯: ["刀剑", img.rider.espada_01, [], [3, 4, 3, 2, 3]],
+  玄武神话: ["大剑", img.rider.buster_01, [], [3, 4, 3, 2, 3]],
+  猿飞忍者传: ["剑斩", img.rider.kenzan_01, [], [3, 4, 3, 2, 3]],
+  汉森纳茨与格雷特: ["剑闪", img.rider.slash_01, [], [3, 4, 3, 2, 3]],
+  邪恶飞龙: ["王剑", img.rider.calibur_01, [], [3, 4, 3, 2, 3]],
 };
 
 /**

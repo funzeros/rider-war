@@ -7,6 +7,7 @@ export class PlayerDTO extends UserInfoDTO implements PlayerVO {
   currentAct = 0;
   handCards = [];
   libCards = [];
+  riderCards = [];
 }
 export class BattleDTO {
   red = new PlayerDTO();

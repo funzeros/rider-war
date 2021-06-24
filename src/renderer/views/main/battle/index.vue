@@ -4,11 +4,14 @@
     <OpposeState class="oppose-state" :value="battleInfo.red"></OpposeState>
     <!-- 战斗区 -->
     <div class="cards-area">
-      <CardsArea></CardsArea>
+      <CardsArea :value="battleInfo"></CardsArea>
     </div>
     <!-- 我方操作区 -->
     <div class="our-opt">
-      <OurOpt :value="battleInfo.blue"></OurOpt>
+      <OurOpt
+        :value="battleInfo.blue"
+        @chooseHandCard="chooseHandCard"
+      ></OurOpt>
     </div>
     <!--TODO:临时返回，完成后删除  -->
     <g-back></g-back>
@@ -38,7 +41,7 @@ export default script;
     left: 50%;
     transform: translate(-50%, calc(-50% - 42px));
     line-height: 0;
-    font-size: 70px;
+    font-size: 100px;
     font-weight: 900;
   }
 }

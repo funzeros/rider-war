@@ -5,6 +5,7 @@ interface PlayerVO extends UserInfoVO {
   currentAct: number;
   handCards: string[];
   libCards: string[];
+  riderCards: RiderInstance[];
 }
 interface Room {
   player: GObj<PlayerVO>;
