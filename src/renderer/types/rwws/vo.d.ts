@@ -8,6 +8,7 @@ interface RWWSTypes {
   mate?: RWFn;
   gameStart?: RWFn;
   syncState?: RWFn;
+  nextTurn?: RWFn;
 }
 type RWWSType = keyof RWWSTypes;
 

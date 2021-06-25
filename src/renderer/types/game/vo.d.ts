@@ -11,4 +11,7 @@ interface Room {
   player: GObj<PlayerVO>;
   roomId: number;
   turnId: number;
+  round: number;
+  subRound: number;
+  actTime: number;
 }

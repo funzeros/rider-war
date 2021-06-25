@@ -4,7 +4,9 @@ import { Effect } from "@renderer/types/effect/dto";
  * 效果参数类型
  */
 export const effectsListParams = {
-  烈火拔刀: [""],
+  烈火一册: [""],
+  流水一册: [""],
+  黄雷一册: [""],
 };
 /**
  * 效果名类型枚举

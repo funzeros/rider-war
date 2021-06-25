@@ -32,6 +32,8 @@ export default defineComponent({
       roomId: 0,
       battleInfo: new BattleDTO(),
       actionFlag: false,
+      round: 0,
+      actTime: 0,
       currentHandCard: "",
     });
     const methods = {
@@ -39,16 +41,20 @@ export default defineComponent({
         modelData.currentHandCard = cardId;
       },
       outCard(x: number) {
+        if (modelData.battleInfo.blue.riderCards.length >= 9) {
+          gMyMsg("场上最多只能存在9个骑士");
+          return;
+        }
+        const currentHandCard = modelData.currentHandCard;
         const ins = document.querySelectorAll(".my .rider-instance");
         const index = getIndexFromDOMS(x, ins);
         const blue = cloneDeep(modelData.battleInfo.blue);
         const red = modelData.battleInfo.red;
-        const card = riderObj[modelData.currentHandCard];
+        const card = riderObj[currentHandCard];
         if (blue.currentAct >= card.cost) {
           blue.currentAct -= card.cost;
-          blue.handCards = blue.handCards.filter(
-            (m) => m !== modelData.currentHandCard
-          );
+          blue.handCards = blue.handCards.filter((m) => m !== currentHandCard);
+          blue.libCards.push(currentHandCard);
           blue.riderCards.splice(index, 0, card.createInstance());
           store.state.user.rwws.send({
             type: "syncState",
@@ -63,8 +69,15 @@ export default defineComponent({
           gMyMsg("行动力不够了");
         }
       },
+      handleNextTurn() {
+        if (!modelData.actionFlag) return;
+        store.state.user.rwws.send({
+          type: "nextTurn",
+          data: { roomId: modelData.roomId },
+        });
+      },
     };
-
+    let timer = null;
     const gameRuntime = {
       initGame({ room }: { room: Room }) {
         const id = userInfo.value.id;
@@ -82,6 +95,12 @@ export default defineComponent({
             );
         }
         modelData.actionFlag = room.turnId === id;
+        modelData.round = room.round;
+        modelData.actTime = room.actTime;
+        clearInterval(timer);
+        timer = setInterval(() => {
+          modelData.actTime = Math.max(0, --modelData.actTime);
+        }, 1000);
         gameGlobal.canDrag = modelData.actionFlag;
       },
     };
@@ -121,6 +140,7 @@ export default defineComponent({
       gameClear();
       window.onmousemove = undefined;
       window.onmouseup = undefined;
+      clearInterval(timer);
     });
     return {
       ...toRefs(modelData),

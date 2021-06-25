@@ -13,6 +13,7 @@
         :style="oStyle(otherRiders.length, i)"
         :key="o.id"
         :value="o"
+        :data-name="o.id"
       ></RiderInstance>
     </transition-group>
     <transition-group
@@ -54,6 +55,7 @@ export default defineComponent({
     const otherRiders = computed(() => {
       return props.value.red.riderCards;
     });
+    const cssTemp = new Map();
     const methods = {
       oStyle(length: number, index: number) {
         const center = (length - 1) / 2;
@@ -66,8 +68,8 @@ export default defineComponent({
         anime({
           targets: el,
           scale: [
-            { value: 1.3, duration: 10 },
-            { value: 1, duration: 200 },
+            { value: 1.3, duration: 50 },
+            { value: 1, duration: 200, delay: 50 },
           ],
           opacity: [{ value: 1, duration: 300 }],
           easing: "easeOutElastic(1, .8)",
@@ -77,6 +79,7 @@ export default defineComponent({
         });
       },
       beforeEnter(el) {
+        if (el.dataset.name) cssTemp.set(el.dataset.name, el.style.cssText);
         el.style["transition"] = "all 0s";
         el.style.opacity = 0;
       },
@@ -84,6 +87,7 @@ export default defineComponent({
         el.style["transition"] = "all 0.2s";
         el.style.opacity = 1;
         el.style.transform = "";
+        if (el.dataset.name) el.style.cssText += cssTemp.get(el.dataset.name);
       },
     };
     return { otherRiders, myRiders, ...methods };
@@ -119,5 +123,9 @@ export default defineComponent({
 }
 .breath {
   box-shadow: 0 0 40px 0 #fff inset, 0 0 2px 2px #fff inset;
+}
+.rider-instance {
+  will-change: transform;
+  transition: all 0.2s;
 }
 </style>

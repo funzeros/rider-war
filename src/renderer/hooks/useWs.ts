@@ -41,6 +41,11 @@ export const wsFunc: RWWSTypes = {
     const gameRuntime = rwws.gameRuntime;
     gameRuntime.initGame({ room: res.data });
   },
+  nextTurn(ws, res: RWWSVO<Room>, rwws) {
+    const gameRuntime = rwws.gameRuntime;
+    const room = res.data;
+    gameRuntime.initGame({ room });
+  },
 };
 export class Rwws {
   user: UserInfoDTO;
