@@ -3,26 +3,61 @@
     <div class="rider-inner">
       <el-image :src="value.url" fit="cover"></el-image>
       <div class="btn-group" v-if="canDrag">
-        <div class="btn">
-          <i :class="btnList[0].icon"></i>
-        </div>
-        <el-popconfirm
-          title="要回收这名骑士并返还1点行动吗？"
-          confirmButtonText="好的"
-          cancelButtonText="点错了"
-          @confirm="handleConfirm"
+        <el-popover
+          placement="top"
+          :width="100"
+          trigger="hover"
+          :disabled="!value.effects.length"
         >
           <template #reference>
-            <div class="btn">
-              <i :class="btnList[1].icon"></i>
+            <div class="btn" :class="{ noSkill: !value.effects.length }">
+              <i :class="btnList[0].icon"></i>
             </div>
           </template>
-        </el-popconfirm>
+          <div class="skills">
+            <div class="skill" v-for="item of value.effects" :key="item">
+              {{ item }}
+            </div>
+          </div>
+        </el-popover>
+
+        <div class="btn canClick">
+          <i :class="btnList[1].icon"></i>
+        </div>
       </div>
-      <div class="info" v-else></div>
+      <div class="info" v-else>
+        <el-popover
+          placement="top"
+          :width="100"
+          trigger="hover"
+          :disabled="!value.effects.length"
+        >
+          <template #reference>
+            <div class="btn" :class="{ noSkill: !value.effects.length }">
+              <i :class="btnList[0].icon"></i>
+            </div>
+          </template>
+          <div class="skills">
+            <div class="skill" v-for="item of value.effects" :key="item">
+              {{ item }}
+            </div>
+          </div>
+        </el-popover>
+      </div>
     </div>
     <div class="shadow"></div>
     <CircularText>{{ value.name }}</CircularText>
+    <div
+      class="attr"
+      v-for="item of attrList"
+      :key="item.prop"
+      :style="item.position"
+    >
+      <div class="shadow" :style="item.shadow"></div>
+      <span>
+        {{ item.value }}
+      </span>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -38,7 +73,7 @@ export default {
       default: false,
     },
   },
-  setup() {
+  setup(props) {
     const btnList = [
       {
         name: "技能",
@@ -53,9 +88,52 @@ export default {
     const methods = {
       handleConfirm() {},
     };
+    const { cHp, atk, def, dex } = props.value;
+    const attrList = [
+      {
+        prop: "hp",
+        value: cHp,
+        position: { top: "65%", left: "10%" },
+        shadow: {
+          clipPath:
+            "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+          background: "#6f6",
+        },
+      },
+      {
+        prop: "atk",
+        value: atk,
+        position: { top: "65%", left: "30%" },
+        shadow: {
+          clipPath:
+            "polygon(10% 0, 90% 0, 100% 20%, 60% 100%, 40% 100%, 0 20%)",
+          background: "#f66",
+        },
+      },
+      {
+        prop: "def",
+        value: def,
+        position: { top: "65%", left: "50%" },
+        shadow: {
+          clipPath:
+            "polygon(5% 0, 50% 10%, 95% 0, 100% 50%, 60% 100%, 40% 100%, 0 50%)",
+          background: "#6ff",
+        },
+      },
+      {
+        prop: "dex",
+        value: dex,
+        position: { top: "65%", left: "70%" },
+        shadow: {
+          clipPath: "polygon(0 0, 50% 20%, 100% 0, 100% 80%, 50% 100%, 0 80%)",
+          background: "#66f",
+        },
+      },
+    ];
     return {
       btnList,
       ...methods,
+      attrList,
     };
   },
 };
@@ -92,32 +170,42 @@ export default {
   .el-image {
     pointer-events: none;
   }
+
+  .btn-group {
+    flex: 1;
+    border-top: 2px solid;
+    border-image: linear-gradient(#333, #999, #333) 30 30;
+    background-image: linear-gradient(to right, #434343 0%, black 100%);
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .btn {
+    color: #fff;
+    text-align: center;
+    font-size: 16px;
+    line-height: 30px;
+    cursor: pointer;
+    font-weight: 600;
+    background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
+    &:not(.noSkill):hover {
+      box-shadow: 0 0 15px 0 rgba($color: #fff, $alpha: 0.3) inset;
+    }
+    &.canClick:active {
+      box-shadow: 0 0 15px 0 rgba($color: #000, $alpha: 0.3) inset;
+    }
+    &.noSkill {
+      cursor: default;
+      background: transparent;
+    }
+  }
   .info {
     flex: 1;
     border-top: 2px solid;
     border-image: linear-gradient(#333, #999, #333) 30 30;
     background-image: linear-gradient(to right, #434343 0%, black 100%);
-  }
-  .btn-group {
-    flex: 1;
-    border-top: 2px solid;
-    border-image: linear-gradient(#333, #999, #333) 30 30;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+
     .btn {
-      color: #fff;
-      text-align: center;
-      font-size: 16px;
-      line-height: 30px;
-      cursor: pointer;
-      font-weight: 600;
-      background-image: linear-gradient(60deg, #29323c 0%, #485563 100%);
-      &:hover {
-        box-shadow: 0 0 15px 0 rgba($color: #fff, $alpha: 0.3) inset;
-      }
-      &:active {
-        box-shadow: 0 0 15px 0 rgba($color: #000, $alpha: 0.3) inset;
-      }
+      line-height: 38px;
     }
   }
 }
@@ -140,5 +228,28 @@ export default {
   color: #fff;
   font-weight: 600;
   text-shadow: 0 0 3px #09203f;
+}
+.attr {
+  position: absolute;
+  .shadow {
+    transform: translate(-50%, -50%) !important;
+    width: 20px;
+    height: 20px;
+    box-shadow: 0 0 6px 4px rgba($color: #fff, $alpha: 0.5) inset;
+    filter: blur(1px);
+  }
+  span,
+  .shadow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 0;
+    transform: translateX(-50%);
+  }
+  span {
+    font-weight: 600;
+    color: #fff;
+    text-shadow: 0 0 5px #333;
+  }
 }
 </style>

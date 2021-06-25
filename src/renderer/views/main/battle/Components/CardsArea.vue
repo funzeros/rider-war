@@ -28,12 +28,14 @@
         :key="o.id"
         :value="o"
         canDrag
+        @mousedown.left="handleMD($event, o.id)"
       ></RiderInstance>
       <div key="my-card-area" class="my-card-area breath"></div>
     </transition-group>
   </div>
 </template>
 <script lang="ts">
+import { gameGlobal } from "@renderer/hooks/useGame";
 import { BattleDTO } from "@renderer/types/game/dto";
 import anime from "animejs";
 import { computed, defineComponent, PropType } from "vue";
@@ -48,7 +50,8 @@ export default defineComponent({
       default: () => new BattleDTO(),
     },
   },
-  setup(props) {
+  emits: ["onAttackStart"],
+  setup(props, ctx) {
     const myRiders = computed(() => {
       return props.value.blue.riderCards;
     });
@@ -64,7 +67,7 @@ export default defineComponent({
           transform: `translateY(${Math.floor(-6 * Math.pow(offset, 2))}px)`,
         };
       },
-      enter(el, done) {
+      enter(el: HTMLElement, done: Fn) {
         anime({
           targets: el,
           scale: [
@@ -78,16 +81,26 @@ export default defineComponent({
           },
         });
       },
-      beforeEnter(el) {
+      beforeEnter(el: HTMLElement) {
         if (el.dataset.name) cssTemp.set(el.dataset.name, el.style.cssText);
         el.style["transition"] = "all 0s";
-        el.style.opacity = 0;
+        el.style.opacity = "0";
       },
-      afterEnter(el) {
+      afterEnter(el: HTMLElement) {
         el.style["transition"] = "all 0.2s";
-        el.style.opacity = 1;
+        el.style.opacity = "1";
         el.style.transform = "";
         if (el.dataset.name) el.style.cssText += cssTemp.get(el.dataset.name);
+      },
+      handleMD(e, instanceId: string) {
+        if (gameGlobal.canDrag) {
+          const params = {
+            startX: e.pageX,
+            startY: e.pageY,
+            instanceId,
+          };
+          ctx.emit("onAttackStart", params);
+        }
       },
     };
     return { otherRiders, myRiders, ...methods };

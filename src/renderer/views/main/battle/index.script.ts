@@ -35,10 +35,22 @@ export default defineComponent({
       round: 0,
       actTime: 0,
       currentHandCard: "",
+      instanceId: "",
+      attackStartX: 0,
+      attackStartY: 0,
+      windowWidth: 0,
+      windowHeight: 0,
+      isAttackDrag: false,
     });
     const methods = {
       chooseHandCard(cardId: string) {
         modelData.currentHandCard = cardId;
+      },
+      handleOnAttackStart({ startX, startY, instanceId }) {
+        modelData.isAttackDrag = true;
+        modelData.attackStartX = startX;
+        modelData.attackStartY = startY;
+        modelData.instanceId = instanceId;
       },
       outCard(x: number) {
         if (modelData.battleInfo.blue.riderCards.length >= 9) {
@@ -109,16 +121,70 @@ export default defineComponent({
       const myCardAreaDom = document.querySelector(
         ".my-card-area"
       ) as HTMLElement;
+      const canvas = document.querySelector("#animationCanvas") as any;
+      const canvasContext = canvas.getContext("2d");
+
       window.onmousemove = (e) => {
         if (gameGlobal.isCardDrag) {
           gameGlobal.cardMoveX = e.pageX;
           gameGlobal.cardMoveY = e.pageY;
+        }
+        if (modelData.isAttackDrag) {
+          window.requestAnimationFrame(() => {
+            // 绘制攻击箭头开始
+            canvasContext.clearRect(
+              0,
+              0,
+              modelData.windowWidth,
+              modelData.windowHeight
+            );
+            canvasContext.strokeStyle = "maroon";
+            canvasContext.fillStyle = "maroon";
+            canvasContext.save();
+            canvasContext.setLineDash([40, 10]);
+            canvasContext.lineWidth = 30;
+            canvasContext.beginPath();
+            canvasContext.moveTo(
+              modelData.attackStartX,
+              modelData.attackStartY
+            );
+            canvasContext.lineTo(e.pageX, e.pageY);
+            canvasContext.fill();
+            canvasContext.stroke();
+            canvasContext.restore();
+            canvasContext.save();
+            canvasContext.beginPath();
+            canvasContext.lineCap = "square";
+            canvasContext.translate(e.pageX, e.pageY);
+            let getLineRadians = () => {
+              // 计算直线当前的角度
+              let _a = e.pageX - modelData.attackStartX;
+              let _b = e.pageY - modelData.attackStartY;
+              let _c = Math.hypot(_a, _b);
+              return Math.acos(_a / _c) * Math.sign(_b);
+            };
+            canvasContext.rotate(getLineRadians() - Math.PI / 2);
+            canvasContext.moveTo(35, -40);
+            canvasContext.lineTo(0, 25);
+            canvasContext.lineTo(-35, -40);
+            canvasContext.lineTo(35, -40);
+            canvasContext.fill();
+            canvasContext.stroke();
+            canvasContext.restore();
+            // 绘制攻击箭头结束
+          });
         }
       };
       window.onmouseup = (e) => {
         if (e.which === 1) {
           if (gameGlobal.isCardDrag) {
             gameGlobal.isCardDrag = false;
+            if (!modelData.actionFlag) {
+              gMyMsg("当前不是你的回合");
+              myCardAreaDom.style.display = "none";
+              modelData.currentHandCard = "";
+              return;
+            }
             if (modelData.currentHandCard) {
               const top = myCardAreaDom.parentElement.offsetTop,
                 width = myCardAreaDom.parentElement.offsetWidth,
@@ -133,7 +199,39 @@ export default defineComponent({
               modelData.currentHandCard = "";
             }
           }
+          if (modelData.isAttackDrag) {
+            modelData.isAttackDrag = false;
+            canvasContext.clearRect(
+              0,
+              0,
+              modelData.windowWidth,
+              modelData.windowHeight
+            );
+            if (!modelData.actionFlag) {
+              gMyMsg("当前不是你的回合");
+              return;
+            }
+            let x = e.pageX, // 鼠标松开的x
+              y = e.pageY, // 鼠标松开的y
+              k = -1; // 用于记录找到的卡牌的index
+            // this.otherCardAreaDom.childNodes.forEach(cd => { // 循环遍历对手的卡牌dom
+            //     let top = cd.offsetTop,
+            //         width = cd.offsetWidth,
+            //         left = cd.offsetLeft,
+            //         height = cd.offsetHeight;
+            //     if (x > left && x < (left + width) && y > top && y < (top + height)) { // 边缘检测
+            //         k = cd.dataset.k;
+            //         this.attackCard(k);
+            //     }
+            // });
+          }
         }
+      };
+      modelData.windowWidth = window.innerWidth;
+      modelData.windowHeight = window.innerHeight;
+      window.onresize = () => {
+        modelData.windowWidth = window.innerWidth;
+        modelData.windowHeight = window.innerHeight;
       };
     });
     onUnmounted(() => {

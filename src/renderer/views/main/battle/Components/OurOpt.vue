@@ -37,6 +37,7 @@ export default defineComponent({
     Progress,
     MyInfo,
   },
+  emits: ["chooseHandCard"],
   setup(props, ctx) {
     const { delayAS } = useGAntiShake();
     const modelData = reactive({
@@ -47,7 +48,7 @@ export default defineComponent({
     let raf = 0;
     let myCardAreaDom = null;
     const methods = {
-      handleMD(e, cardId) {
+      handleMD(e, cardId: number) {
         if (gameGlobal.canDrag) {
           modelData.startX = e.pageX;
           modelData.startY = e.pageY;

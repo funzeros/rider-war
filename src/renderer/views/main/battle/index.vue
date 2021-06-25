@@ -7,7 +7,10 @@
     <OpposeState class="oppose-state" :value="battleInfo.red"></OpposeState>
     <!-- 战斗区 -->
     <div class="cards-area">
-      <CardsArea :value="battleInfo"></CardsArea>
+      <CardsArea
+        :value="battleInfo"
+        @onAttackStart="handleOnAttackStart"
+      ></CardsArea>
     </div>
     <!-- 我方操作区 -->
     <div class="our-opt">
@@ -26,6 +29,12 @@
     <div class="this-turn">第{{ round }}回合</div>
     <!--TODO:临时返回，完成后删除  -->
     <g-back></g-back>
+    <canvas
+      id="animationCanvas"
+      :width="windowWidth"
+      :height="windowHeight"
+      :class="{ isAttackDrag }"
+    ></canvas>
   </div>
 </template>
 <script lang="ts" >
