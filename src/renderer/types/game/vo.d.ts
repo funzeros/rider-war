@@ -15,3 +15,8 @@ interface Room {
   subRound: number;
   actTime: number;
 }
+
+interface AttachVO {
+  actionList: GObj[];
+  room: GObj;
+}

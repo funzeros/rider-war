@@ -5,9 +5,9 @@ export class PlayerDTO extends UserInfoDTO implements PlayerVO {
   currentHP = 0;
   maxAct = 10;
   currentAct = 0;
-  handCards = [];
-  libCards = [];
-  riderCards = [];
+  handCards: string[] = [];
+  libCards: string[] = [];
+  riderCards: RiderInstance[] = [];
 }
 export class BattleDTO {
   red = new PlayerDTO();

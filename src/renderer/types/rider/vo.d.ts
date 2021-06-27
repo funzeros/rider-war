@@ -16,5 +16,9 @@ interface RiderInstance<T = string> {
   atk: number;
   def: number;
   dex: number;
+  mFury: number; // 最大怒气
+  cFury: number; // 当前怒气
+  mAtks: number; // 最大可攻击次数
+  sAtks: number; // 剩余攻击次数
   effects: T[];
 }

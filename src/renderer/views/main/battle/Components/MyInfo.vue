@@ -1,5 +1,5 @@
 <template>
-  <div class="info my-battle-info">
+  <div class="info my-battle-info" :class="'riderInstance' + value.id">
     <el-descriptions :column="1">
       <el-descriptions-item label="用户名">{{
         value.name

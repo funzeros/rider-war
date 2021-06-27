@@ -6,6 +6,7 @@ import { UserStatus } from "@renderer/store/modules/user/state";
 import { RWWSDTO } from "@renderer/types/rwws/dto";
 import { UserInfoDTO } from "@renderer/types/user/dto";
 import { isDev } from "@renderer/utils/common";
+import { gMyMsg } from "./useGame";
 import { gNotification } from "./useMessage";
 
 export const wsFunc: RWWSTypes = {
@@ -45,6 +46,33 @@ export const wsFunc: RWWSTypes = {
     const gameRuntime = rwws.gameRuntime;
     const room = res.data;
     gameRuntime.initGame({ room });
+  },
+  attack(ws, res: RWWSVO<AttachVO>, rwws) {
+    const gameRuntime = rwws.gameRuntime;
+    const { actionList, room } = res.data;
+    gameRuntime.actionAnime(actionList);
+    setTimeout(() => {
+      gameRuntime.initGame({ room });
+    }, actionList.length * 300);
+  },
+  gameEnd(ws, res: RWWSVO<{ faildId: number; status: UserStatus }>) {
+    const store = useStore();
+    const { faildId, status } = res.data;
+    if (faildId) {
+      if (faildId === store.state.user.userInfo.id) {
+        gMyMsg("我们输了");
+      } else {
+        gMyMsg("我们赢了");
+      }
+    } else {
+      gMyMsg("平局啦");
+    }
+    store.commit(UserMutationsType.SET_USER_STATUS, status);
+    setTimeout(() => {
+      router.push({
+        name: "主菜单",
+      });
+    }, 2000);
   },
 };
 export class Rwws {

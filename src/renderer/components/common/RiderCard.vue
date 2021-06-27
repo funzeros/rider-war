@@ -17,6 +17,7 @@
         v-for="item of attrList"
         :key="item.prop"
         :style="item.position"
+        :title="item.desc + item.value"
       >
         <div class="shadow" :style="item.shadow"></div>
         <span>
@@ -49,6 +50,7 @@ export default defineComponent({
       {
         prop: "cost",
         value: cost,
+        desc: "费用",
         position: { top: "10%", left: "0" },
         shadow: {
           clipPath: "circle(50% at 50% 50%)",
@@ -58,6 +60,7 @@ export default defineComponent({
       {
         prop: "hp",
         value: hp,
+        desc: "生命",
         position: { top: "50%", left: "0" },
         shadow: {
           clipPath:
@@ -68,6 +71,7 @@ export default defineComponent({
       {
         prop: "atk",
         value: atk,
+        desc: "攻击",
         position: { top: "90%", left: "0" },
         shadow: {
           clipPath:
@@ -78,6 +82,7 @@ export default defineComponent({
       {
         prop: "def",
         value: def,
+        desc: "护甲",
         position: { top: "30%", right: "0" },
         shadow: {
           clipPath:
@@ -88,6 +93,7 @@ export default defineComponent({
       {
         prop: "dex",
         value: dex,
+        desc: "速度",
         position: { top: "70%", right: "0" },
         shadow: {
           clipPath: "polygon(0 0, 50% 20%, 100% 0, 100% 80%, 50% 100%, 0 80%)",

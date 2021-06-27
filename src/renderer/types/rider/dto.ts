@@ -1,4 +1,4 @@
-import { effects, EffectsKey } from "@renderer/const/effects";
+import { EffectsKey } from "@renderer/const/effects";
 import { chatCodeAtAll } from "@renderer/utils/common";
 import { GMath } from "@renderer/utils/custom";
 
@@ -44,6 +44,10 @@ export class Rider {
       atk: this.atk,
       def: this.def,
       dex: this.dex,
+      mFury: 5,
+      cFury: 0,
+      mAtks: 1,
+      sAtks: 0,
       effects: this.effects,
     };
   }

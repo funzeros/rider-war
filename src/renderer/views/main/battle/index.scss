@@ -17,7 +17,7 @@
         left: 50%;
         transform: translate(-50%, calc(-50% - 42px));
         line-height: 0;
-        font-size: 100px;
+        font-size: 40px;
         font-weight: 900;
     }
 }
@@ -31,8 +31,8 @@
 
 .next-turn {
     position: absolute;
-    top: calc(110px + 20%);
-    right: 20px;
+    top: 50px;
+    right: 50px;
     width: 100px;
     height: 40px;
     text-align: right;
@@ -42,7 +42,7 @@
     text-shadow: 0 0 4px #669;
     font-weight: 600;
     box-shadow: 0 0 5px 0 #f3e7e9;
-    border-radius: 80% 20% 20% 20% / 80% 50% 50% 20%;
+    border-radius: 80% 20% 20% 80% / 50% 50% 50% 50%;
     padding: 0 10px;
     cursor: pointer;
     &:not(.disabled):hover {
@@ -57,10 +57,11 @@
         filter: grayscale(100%);
     }
 }
+
 .this-turn {
     position: absolute;
-    top: calc(110px + 20%);
-    left: 20px;
+    top: 50px;
+    left: 50px;
     width: 100px;
     height: 40px;
     text-align: left;
@@ -70,10 +71,25 @@
     text-shadow: 0 0 4px #669;
     font-weight: 600;
     box-shadow: 0 0 5px 0 #f3e7e9;
-    border-radius: 20% 80% 20% 20% / 50% 80% 50% 20%;
+    border-radius: 20% 80% 80% 20% / 50% 50% 50% 50%;
     padding: 0 10px;
 }
-
+.right-progress,
+.left-progress {
+    position: absolute;
+    top: 67px;
+    width: calc(50% - 300px);
+    :deep(.el-progress-bar__outer) {
+        background-color: transparent;
+    }
+}
+.right-progress {
+    transform: rotateZ(180deg);
+    right: 160px;
+}
+.left-progress {
+    left: 160px;
+}
 #animationCanvas {
     width: 100vw;
     height: 100vh;

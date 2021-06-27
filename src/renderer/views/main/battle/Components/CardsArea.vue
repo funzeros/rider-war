@@ -2,18 +2,18 @@
   <div class="area-wrap">
     <div class="placehoder"></div>
     <transition-group
-      class="other"
+      class="other other-card-area"
       tag="div"
       @enter="enter"
       @before-enter="beforeEnter"
       @after-enter="afterEnter"
     >
       <RiderInstance
-        v-for="(o, i) of otherRiders"
-        :style="oStyle(otherRiders.length, i)"
+        v-for="o of otherRiders"
         :key="o.id"
         :value="o"
         :data-name="o.id"
+        :class="'riderInstance' + o.id"
       ></RiderInstance>
     </transition-group>
     <transition-group
@@ -27,15 +27,18 @@
         v-for="o of myRiders"
         :key="o.id"
         :value="o"
-        canDrag
-        @mousedown.left="handleMD($event, o.id)"
+        isMy
+        :class="'riderInstance' + o.id"
+        :canDrag="canDrag"
+        @mousedown.left="handleMD($event, o)"
+        @recycle="recycle"
       ></RiderInstance>
       <div key="my-card-area" class="my-card-area breath"></div>
     </transition-group>
   </div>
 </template>
 <script lang="ts">
-import { gameGlobal } from "@renderer/hooks/useGame";
+import { gameGlobal, gMyMsg } from "@renderer/hooks/useGame";
 import { BattleDTO } from "@renderer/types/game/dto";
 import anime from "animejs";
 import { computed, defineComponent, PropType } from "vue";
@@ -49,8 +52,12 @@ export default defineComponent({
       type: Object as PropType<BattleDTO>,
       default: () => new BattleDTO(),
     },
+    canDrag: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ["onAttackStart"],
+  emits: ["onAttackStart", "recycle"],
   setup(props, ctx) {
     const myRiders = computed(() => {
       return props.value.blue.riderCards;
@@ -60,13 +67,17 @@ export default defineComponent({
     });
     const cssTemp = new Map();
     const methods = {
-      oStyle(length: number, index: number) {
-        const center = (length - 1) / 2;
-        const offset = Math.floor(Math.abs(index - center));
-        return {
-          transform: `translateY(${Math.floor(-6 * Math.pow(offset, 2))}px)`,
-        };
-      },
+      // oStyle(length: number, index: number) {
+      //   const center = (length - 1) / 2;
+      //   const offset = Math.floor(Math.abs(index - center));
+      //   const offsetY = Math.floor(-6 * Math.pow(offset, 2));
+      //   return {
+      //     offsetY,
+      //     style: {
+      //       transform: `translateY(${offsetY}px)`,
+      //     },
+      //   };
+      // },
       enter(el: HTMLElement, done: Fn) {
         anime({
           targets: el,
@@ -82,7 +93,7 @@ export default defineComponent({
         });
       },
       beforeEnter(el: HTMLElement) {
-        if (el.dataset.name) cssTemp.set(el.dataset.name, el.style.cssText);
+        // if (el.dataset.name) cssTemp.set(el.dataset.name, el.style.cssText);
         el.style["transition"] = "all 0s";
         el.style.opacity = "0";
       },
@@ -90,17 +101,24 @@ export default defineComponent({
         el.style["transition"] = "all 0.2s";
         el.style.opacity = "1";
         el.style.transform = "";
-        if (el.dataset.name) el.style.cssText += cssTemp.get(el.dataset.name);
+        // if (el.dataset.name) el.style.cssText += cssTemp.get(el.dataset.name);
       },
-      handleMD(e, instanceId: string) {
-        if (gameGlobal.canDrag) {
+      handleMD(e, instance: RiderInstance) {
+        if (props.canDrag) {
+          if (!instance.sAtks) {
+            gMyMsg("该骑士还未对下次攻击做好准备");
+            return;
+          }
           const params = {
             startX: e.pageX,
             startY: e.pageY,
-            instanceId,
+            instanceId: instance.id,
           };
           ctx.emit("onAttackStart", params);
         }
+      },
+      recycle(e) {
+        ctx.emit("recycle", e);
       },
     };
     return { otherRiders, myRiders, ...methods };

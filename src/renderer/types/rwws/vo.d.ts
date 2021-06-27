@@ -9,6 +9,8 @@ interface RWWSTypes {
   gameStart?: RWFn;
   syncState?: RWFn;
   nextTurn?: RWFn;
+  attack?: RWFn;
+  gameEnd?: RWFn;
 }
 type RWWSType = keyof RWWSTypes;
 

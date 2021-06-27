@@ -1,5 +1,5 @@
 <template>
-  <div class="state-wrap">
+  <div class="state-wrap" :class="'riderInstance' + value.id">
     <div>
       <span>用户名</span>
       <div>{{ value.name }}</div>

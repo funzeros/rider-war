@@ -32,6 +32,10 @@ export default defineComponent({
       type: Object as PropType<PlayerDTO>,
       default: new PlayerDTO(),
     },
+    canDrag: {
+      type: Boolean,
+      default: false,
+    },
   },
   components: {
     Progress,
@@ -49,7 +53,7 @@ export default defineComponent({
     let myCardAreaDom = null;
     const methods = {
       handleMD(e, cardId: number) {
-        if (gameGlobal.canDrag) {
+        if (props.canDrag) {
           modelData.startX = e.pageX;
           modelData.startY = e.pageY;
           gameGlobal.cardMoveX = e.pageX;
@@ -68,7 +72,7 @@ export default defineComponent({
         ctx.emit("chooseHandCard", cardId);
       },
       outCardLoop(el: HTMLElement) {
-        if (gameGlobal.isCardDrag && gameGlobal.canDrag) {
+        if (gameGlobal.isCardDrag && props.canDrag) {
           raf = requestAnimationFrame(() => {
             this.outCardLoop(el);
           });

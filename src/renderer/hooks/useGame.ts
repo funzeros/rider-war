@@ -35,7 +35,6 @@ export const gameGlobal = {
   cardMoveX: 0,
   cardMoveY: 0,
   isCardDrag: false,
-  canDrag: false,
 };
 
 export const gMyMsg = (innerStr: string) => {
