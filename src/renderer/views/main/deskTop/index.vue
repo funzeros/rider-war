@@ -1,10 +1,8 @@
 <template>
   <div class="main-wrap">
-    <!-- <video muted="" autoplay="" preload="" loop="">
-      <source
-        src="//game.gtimg.cn/images/lol/act/a20210601luckysummer/ui/header-kv2.mp4"
-      />
-    </video> -->
+    <video class="video" muted="" autoplay="" preload="" loop="">
+      <source :src="video.mp4_saber_01" />
+    </video>
     <div class="btn-grid">
       <el-button
         v-for="(item, index) of btnListCp"
@@ -24,6 +22,7 @@ import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { useGRoute } from "@renderer/hooks/useRoute";
 import { useGConfirm } from "@renderer/hooks/useMessage";
 import useGame from "@renderer/hooks/useGame";
+import { video } from "@renderer/assets/resource";
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -112,6 +111,7 @@ export default defineComponent({
       ...methods,
       ...computeds,
       ...constData,
+      video,
     };
   },
 });
@@ -135,5 +135,11 @@ export default defineComponent({
       margin: 0;
     }
   }
+}
+.video {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  transform: scale(1.2);
 }
 </style>

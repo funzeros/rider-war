@@ -1,5 +1,8 @@
 <template>
   <div class="login-wrap" v-loading="loginLoading">
+    <video class="video" muted="" autoplay="" preload="" loop="">
+      <source :src="video.mp4_saber_02" />
+    </video>
     <el-form
       ref="FormRef"
       :model="modelRef"
@@ -65,6 +68,7 @@ import { gMessage } from "@renderer/hooks/useMessage";
 import { useStore } from "@renderer/store";
 import { UserMutationsType } from "@renderer/store/modules/user/mutations";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
+import { video } from "@renderer/assets/resource";
 export default defineComponent({
   setup() {
     const { pushRouteFullpath, currentQuery, replaceRouteQuery } = useGRoute();
@@ -152,6 +156,7 @@ export default defineComponent({
     return {
       isReg,
       FormRef,
+      video,
       ...toRefs(modelData),
       ...methods,
       ...constData,
@@ -170,11 +175,21 @@ export default defineComponent({
   justify-content: center;
 }
 .form-box {
-  background-color: #ececec;
   border-radius: 10px;
   width: 400px;
   box-sizing: border-box;
   padding: 20px;
   box-shadow: 0 0 10px 2px #bababa;
+  position: relative;
+  background-color: rgba($color: #ececec, $alpha: 0.8);
+}
+.video {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  transform: scale(1.2);
 }
 </style>
