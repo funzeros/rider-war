@@ -5,6 +5,7 @@ node_modules/
 dist/electron/main
 dist/electron/renderer
 dist/web
+dist/wepb
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
