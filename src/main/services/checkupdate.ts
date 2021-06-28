@@ -6,7 +6,7 @@ import { ipcMain, BrowserWindow } from "electron";
 class Update {
   public mainWindow: BrowserWindow;
   constructor(mainWindow: BrowserWindow) {
-    autoUpdater.setFeedURL("http://47.103.218.109:10050");
+    autoUpdater.setFeedURL("http://47.103.218.109:10088");
     this.mainWindow = mainWindow;
     // 注册事件
     this.checkUpdate();
@@ -34,7 +34,7 @@ class Update {
       if (err.message.includes("sha512 checksum mismatch")) {
         this.Message(this.mainWindow, -1, "sha512校验失败");
       } else {
-        this.Message(this.mainWindow, -1, "错误信息请看主进程控制台");
+        this.Message(this.mainWindow, -1, "请手动安装最新版本");
       }
     });
   }
