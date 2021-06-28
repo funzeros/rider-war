@@ -28,6 +28,7 @@
           :color="colors"
           :status="progressStaus"
         ></el-progress>
+        <el-link @click="handleDownLoad()">手动下载</el-link>
       </div>
     </el-dialog>
   </div>
@@ -42,7 +43,7 @@ import { gMessage, useGConfirm } from "@renderer/hooks/useMessage";
 import useGame from "@renderer/hooks/useGame";
 import { video } from "@renderer/assets/resource";
 import { ElMessageBox } from "element-plus";
-const { ipcRenderer } = require("electron");
+const { ipcRenderer, shell } = require("electron");
 
 export default defineComponent({
   setup() {
@@ -148,6 +149,9 @@ export default defineComponent({
       },
       handleClose() {
         modelData.dialogVisible = false;
+      },
+      handleDownLoad() {
+        shell.openExternal("http://aote.fun:10088");
       },
     };
     const constData = {
@@ -272,5 +276,8 @@ export default defineComponent({
   height: 100vh;
   object-fit: cover;
   transform: scale(1.2);
+}
+.conten {
+  text-align: center;
 }
 </style>

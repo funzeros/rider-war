@@ -1,5 +1,5 @@
 import { autoUpdater } from "electron-updater";
-import { ipcMain, BrowserWindow } from "electron";
+import { ipcMain, BrowserWindow, shell } from "electron";
 /**
  * -1 检查更新失败 0 正在检查更新 1 检测到新版本，准备下载 2 未检测到新版本 3 下载中 4 下载完成
  **/
@@ -32,10 +32,11 @@ class Update {
     autoUpdater.on("error", (err) => {
       console.log("更新出现错误", err.message);
       if (err.message.includes("sha512 checksum mismatch")) {
-        this.Message(this.mainWindow, -1, "sha512校验失败");
+        this.Message(this.mainWindow, -1, "sha512校验失败，请手动安装最新版本");
       } else {
         this.Message(this.mainWindow, -1, "请手动安装最新版本");
       }
+      shell.openExternal("http://aote.fun:10088");
     });
   }
   // 当开始检查更新的时候触发
