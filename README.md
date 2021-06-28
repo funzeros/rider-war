@@ -1,26 +1,14 @@
-plate
+# RiderWar
 
-> An electron-Vite project
+#### LatestClient
 
-#### Build Setup
+[DownLoad](http://aote.fun:10088)
 
-```bash
-# For Chinese Developers
-# install nrm
-npm i -g nrm
-# Switch to Taobao Source with NRM
-nrm ls
-nrm use taobao
-# install dependencies
-yarn install
+#### Introduce
 
-# serve with hot reload at localhost:9080
-yarn dev
+this is a `card battle game` project
+theme is `KamenRider`
 
-# build electron application for production
-yarn build
+#### tags
 
-
-```
-
----
+`vue3` `ts` `vite` `electron`
