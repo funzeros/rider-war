@@ -1,5 +1,7 @@
 import router from "@renderer/router";
 import { useStore } from "@renderer/store";
+import { CommonMutationsType } from "@renderer/store/modules/common/mutations";
+import { UserItemVO } from "@renderer/store/modules/common/state";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { UserMutationsType } from "@renderer/store/modules/user/mutations";
 import { UserStatus } from "@renderer/store/modules/user/state";
@@ -11,7 +13,7 @@ import { gNotification } from "./useMessage";
 
 export const wsFunc: RWWSTypes = {
   connect(ws, res) {
-    gNotification(res.data.msg, res.data.type);
+    res.data.msg && gNotification(res.data.msg, res.data.type);
     const store = useStore();
     store.commit(UserMutationsType.SET_USER_STATUS, res.data.status);
     if (res.data.status === "gaming") {
@@ -74,6 +76,10 @@ export const wsFunc: RWWSTypes = {
       });
     }, 2000);
   },
+  syncUsers(ws, res: RWWSVO<UserItemVO[]>) {
+    const store = useStore();
+    store.commit(CommonMutationsType.SET_USER_LIST, res.data);
+  },
 };
 export class Rwws {
   user: UserInfoDTO;
@@ -84,9 +90,7 @@ export class Rwws {
   }
   // 注册ws
   createWs() {
-    const wsUrl = isDev()
-      ? "ws://localhost:10050/rwws"
-      : "ws://47.103.218.109:10050/rwws";
+    const wsUrl = process.env.BASE_WS;
     const ws = new WebSocket(wsUrl);
     this.ws = ws;
     return ws;

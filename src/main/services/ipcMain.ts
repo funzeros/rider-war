@@ -1,71 +1,62 @@
-import { ipcMain, dialog, BrowserWindow } from 'electron'
-import Server from '../server'
-import { winURL } from '../config/StaticPath'
-import { updater } from './HotUpdater'
+import { ipcMain, dialog, BrowserWindow } from "electron";
+import Server from "../server";
+import { winURL } from "../config/StaticPath";
+import { updater } from "./HotUpdater";
 
 export default {
   Mainfunc(mainWindow: BrowserWindow, IsUseSysTitle: Boolean) {
-    ipcMain.handle('IsUseSysTitle', async () => {
-      return IsUseSysTitle
-    })
-    ipcMain.handle('windows-mini', () => {
-      mainWindow.minimize()
-    })
-    ipcMain.handle('window-max', async () => {
+    ipcMain.handle("IsUseSysTitle", async () => {
+      return IsUseSysTitle;
+    });
+    ipcMain.handle("windows-mini", () => {
+      mainWindow.minimize();
+    });
+    ipcMain.handle("window-max", async () => {
       if (mainWindow.isMaximized()) {
-        mainWindow.restore()
-        return { status: false }
+        mainWindow.restore();
+        return { status: false };
       } else {
-        mainWindow.maximize()
-        return { status: true }
+        mainWindow.maximize();
+        return { status: true };
       }
-    })
-    ipcMain.handle('window-close', () => {
-      mainWindow.close()
-    })
-    ipcMain.handle('open-messagebox', async (event, arg) => {
+    });
+    ipcMain.handle("window-close", () => {
+      mainWindow.close();
+    });
+    ipcMain.handle("open-messagebox", async (event, arg) => {
       const res = await dialog.showMessageBox(mainWindow, {
-        type: arg.type || 'info',
-        title: arg.title || '',
+        type: arg.type || "info",
+        title: arg.title || "",
         buttons: arg.buttons || [],
-        message: arg.message || '',
-        noLink: arg.noLink || true
-      })
-      return res
-    })
-    ipcMain.handle('open-errorbox', (event, arg) => {
-      dialog.showErrorBox(
-        arg.title,
-        arg.message
-      )
-    })
-    ipcMain.handle('statr-server', async () => {
+        message: arg.message || "",
+        noLink: arg.noLink || true,
+      });
+      return res;
+    });
+    ipcMain.handle("open-errorbox", (event, arg) => {
+      dialog.showErrorBox(arg.title, arg.message);
+    });
+    ipcMain.handle("statr-server", async () => {
       try {
-        const serveStatus = await Server.StatrServer()
-        console.log(serveStatus)
-        return serveStatus
+        const serveStatus = await Server.StatrServer();
+        console.log(serveStatus);
+        return serveStatus;
       } catch (error) {
-        dialog.showErrorBox(
-          '错误',
-          error
-        )
+        dialog.showErrorBox("错误", error);
       }
-    })
-    ipcMain.handle('stop-server', async (event, arg) => {
+    });
+    ipcMain.handle("stop-server", async (event, arg) => {
       try {
-        const serveStatus = await Server.StopServer()
-        return serveStatus
+        const serveStatus = await Server.StopServer();
+        return serveStatus;
       } catch (error) {
-        dialog.showErrorBox(
-          '错误',
-          error
-        )
+        dialog.showErrorBox("错误", error);
       }
-    })
-    ipcMain.handle('hot-update', (event, arg) => {
-      updater(mainWindow)
-    })
-    ipcMain.handle('open-win', (event, arg) => {
+    });
+    ipcMain.handle("hot-update", (event, arg) => {
+      updater(mainWindow);
+    });
+    ipcMain.handle("open-win", (event, arg) => {
       const ChildWin = new BrowserWindow({
         height: 595,
         useContentSize: true,
@@ -78,29 +69,29 @@ export default {
           contextIsolation: false,
           webSecurity: false,
           // 如果是开发模式可以使用devTools
-          devTools: process.env.NODE_ENV === 'development',
+          devTools: process.env.NODE_ENV === "development",
           // devTools: true,
           // 在macos中启用橡皮动画
-          scrollBounce: process.platform === 'darwin'
-        }
-      })
-      ChildWin.loadURL(winURL + `#${arg.url}`)
-      ChildWin.webContents.once('dom-ready', () => {
-        ChildWin.show()
-        ChildWin.webContents.send('send-data', arg.sendData)
+          scrollBounce: process.platform === "darwin",
+        },
+      });
+      ChildWin.loadURL(winURL + `#${arg.url}`);
+      ChildWin.webContents.once("dom-ready", () => {
+        ChildWin.show();
+        ChildWin.webContents.send("send-data", arg.sendData);
         if (arg.IsPay) {
           // 检查支付时候自动关闭小窗口
           const testUrl = setInterval(() => {
-            const Url = ChildWin.webContents.getURL()
+            const Url = ChildWin.webContents.getURL();
             if (Url.includes(arg.PayUrl)) {
-              ChildWin.close()
+              ChildWin.close();
             }
-          }, 1200)
-          ChildWin.on('close', () => {
-            clearInterval(testUrl)
-          })
+          }, 1200);
+          ChildWin.on("close", () => {
+            clearInterval(testUrl);
+          });
         }
-      })
-    })
-  }
-}
+      });
+    });
+  },
+};

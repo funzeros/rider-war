@@ -44,13 +44,13 @@ export default defineComponent({
   left: 50%;
   transform: translateX(-50%);
   .box {
-    height: 60px;
+    height: 80px;
     cursor: pointer;
     color: #fff;
     padding: 8px 12px;
     background-image: linear-gradient(
       to bottom,
-      rgba(#000, 0.4) 0%,
+      rgba(#000, 0.8) 0%,
       rgba(#000, 0) 100%
     );
     .close {

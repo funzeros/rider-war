@@ -2,8 +2,8 @@ module.exports = {
   build: {
     DisableF12: true,
     env: require("./prod.env"),
-    hotPublishUrl: "",
-    hotPublishConfigName: "",
+    hotPublishUrl: "http://47.103.218.109:10088",
+    hotPublishConfigName: "latest.yml",
   },
   dev: {
     env: require("./dev.env"),

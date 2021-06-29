@@ -11,6 +11,7 @@ interface RWWSTypes {
   nextTurn?: RWFn;
   attack?: RWFn;
   gameEnd?: RWFn;
+  syncUsers?: RWFn;
 }
 type RWWSType = keyof RWWSTypes;
 

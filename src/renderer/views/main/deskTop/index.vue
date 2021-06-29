@@ -1,8 +1,11 @@
 <template>
   <div class="main-wrap">
+    <!-- 背景 -->
     <video class="video" muted="" autoplay="" preload="" loop="">
       <source :src="video.mp4_saber_01" />
     </video>
+    <HeaderDiv />
+    <!-- 按钮组 -->
     <div class="btn-grid">
       <el-button
         v-for="(item, index) of btnListCp"
@@ -12,6 +15,7 @@
         >{{ item.name }}</el-button
       >
     </div>
+    <!-- 更新弹窗 -->
     <el-dialog
       title="进度"
       v-model="dialogVisible"
@@ -42,10 +46,14 @@ import { useGRoute } from "@renderer/hooks/useRoute";
 import { gMessage, useGConfirm } from "@renderer/hooks/useMessage";
 import useGame from "@renderer/hooks/useGame";
 import { video } from "@renderer/assets/resource";
+import HeaderDiv from "./Header.vue";
 import { ElMessageBox } from "element-plus";
 const { ipcRenderer, shell } = require("electron");
 
 export default defineComponent({
+  components: {
+    HeaderDiv,
+  },
   setup() {
     const store = useStore();
     const { pushRouteName } = useGRoute();
@@ -146,6 +154,7 @@ export default defineComponent({
         });
         // 更新检查
         ipcRenderer.invoke("check-update");
+        // ipcRenderer.invoke("hot-update");
       },
       handleClose() {
         modelData.dialogVisible = false;
