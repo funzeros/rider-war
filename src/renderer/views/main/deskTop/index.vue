@@ -7,12 +7,12 @@
     <HeaderDiv />
     <!-- 按钮组 -->
     <div class="btn-grid">
-      <el-button
+      <g-text-btn
         v-for="(item, index) of btnListCp"
         :key="'btn_' + index"
         :class="[`grid-span-${item.span}`]"
         @click="item.func"
-        >{{ item.name }}</el-button
+        >{{ item.name }}</g-text-btn
       >
     </div>
     <!-- 更新弹窗 -->
@@ -271,7 +271,6 @@ export default defineComponent({
     position: absolute;
     left: 100px;
     top: 100px;
-    width: 200px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;

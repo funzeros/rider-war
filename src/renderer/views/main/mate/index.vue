@@ -45,7 +45,6 @@ export default defineComponent({
   transform: translateX(-50%);
   .box {
     height: 80px;
-    cursor: pointer;
     color: #fff;
     padding: 8px 12px;
     background-image: linear-gradient(
