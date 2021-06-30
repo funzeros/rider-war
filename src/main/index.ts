@@ -10,6 +10,7 @@ import electronDevtoolsInstaller, {
 function onAppReady() {
   new InitWindow().initWindow();
   DisableButton.Disablef12();
+  DisableButton.Disablef5();
   if (process.env.NODE_ENV === "development") {
     electronDevtoolsInstaller(VUEJS3_DEVTOOLS)
       .then((name) => console.log(`已安装: ${name}`))

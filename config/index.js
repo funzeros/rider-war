@@ -1,6 +1,7 @@
 module.exports = {
   build: {
     DisableF12: true,
+    DisableF5: true,
     env: require("./prod.env"),
     hotPublishUrl: "http://47.103.218.109:10088",
     hotPublishConfigName: "latest.yml",
@@ -14,6 +15,6 @@ module.exports = {
   DllFolder: "",
   HotUpdateFolder: "update",
   UseStartupChart: true,
-  IsUseSysTitle: true,
+  IsUseSysTitle: false,
   BuiltInServerPort: 10050,
 };

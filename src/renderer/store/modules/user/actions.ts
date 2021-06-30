@@ -44,8 +44,8 @@ export const userActions = {
   async [UserActionsType.LOG_OUT]({
     dispatch,
   }: ActionContext<StateRoot, StateRoot>) {
+    await router.push("/login");
     await dispatch(UserActionsType.CLEAR_ALL);
-    router.push("/login");
     return true;
   },
   async [UserActionsType.CLEAR_ALL]({

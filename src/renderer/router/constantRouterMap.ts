@@ -21,20 +21,20 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/main",
     name: "主页",
-    meta: isMeta(),
+    meta: isMeta(true),
     redirect: "/main/desk_top",
     component: () => import("@renderer/views/main/index.vue"),
     children: [
       {
         path: "desk_top",
         name: "主菜单",
-        meta: isMeta(),
+        meta: isMeta(true),
         component: () => import("@renderer/views/main/deskTop/index.vue"),
       },
       {
         path: "book",
         name: "图鉴",
-        meta: isMeta(),
+        meta: isMeta(true),
         component: () => import("@renderer/views/main/book/index.vue"),
       },
       {
@@ -49,7 +49,7 @@ const routes: Array<RouteRecordRaw> = [
     path: "/login",
     name: "登录",
     meta: isMeta(),
-    component: () => import("@renderer/views/main/login/index.vue"),
+    component: () => import("@renderer/views/login/index.vue"),
   },
 ];
 

@@ -12,7 +12,12 @@ router.beforeEach(async (to, from, next) => {
     if (store.getters.token) {
       next();
     } else {
-      next("/login");
+      const res = await store.dispatch(UserActionsType.TOKEN_AUTH);
+      if (res) {
+        next("/");
+      } else {
+        next("/login");
+      }
     }
   } else {
     next();

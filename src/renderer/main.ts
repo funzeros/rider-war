@@ -11,7 +11,6 @@ import { installIepComponents } from "./core/components";
 import store from "./store";
 
 import TitleBar from "./components/common/TitleBar.vue";
-
 const app = createApp(App);
 app.use(ElementPlus);
 app.use(router);

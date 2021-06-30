@@ -1,5 +1,5 @@
 <template>
-  <div class="login-wrap" v-loading="loginLoading">
+  <div class="login-wrap" :class="{ loginFormShow }" @click="showLoginForm">
     <video class="video" muted="" autoplay="" preload="" loop="">
       <source :src="video.mp4_saber_02" />
     </video>
@@ -9,9 +9,11 @@
       :rules="rule"
       class="form-box"
       label-width="auto"
+      v-show="loginFormShow"
     >
       <el-form-item label="用户名" prop="name">
         <el-input
+          ref="nameRef"
           v-model.trim="modelRef.name"
           placeholder="请输入你的大名"
         ></el-input>
@@ -21,6 +23,7 @@
           type="password"
           v-model.trim="modelRef.password"
           placeholder="请输入你的密码"
+          @keydown.enter="handleKeySubmit(isReg)"
         ></el-input>
       </el-form-item>
       <el-form-item v-if="isReg" label="确认密码" prop="confirmPassword">
@@ -28,6 +31,7 @@
           type="password"
           v-model.trim="modelRef.confirmPassword"
           placeholder="请输入确认密码"
+          @keydown.enter="handleKeySubmit()"
         ></el-input>
       </el-form-item>
       <el-form-item>
@@ -49,6 +53,7 @@
         </template>
       </el-form-item>
     </el-form>
+    <div class="login-tip" v-show="!loginFormShow">按下任意键</div>
   </div>
 </template>
 <script lang="ts">
@@ -56,6 +61,7 @@ import {
   computed,
   defineComponent,
   onMounted,
+  onUnmounted,
   reactive,
   ref,
   toRefs,
@@ -74,10 +80,11 @@ export default defineComponent({
     const { pushRouteFullpath, currentQuery, replaceRouteQuery } = useGRoute();
     const store = useStore();
     const FormRef = ref();
+    const nameRef = ref();
     const modelData = reactive({
       modelRef: new RegDTO(),
       submitLoading: false,
-      loginLoading: true,
+      loginFormShow: false,
     });
     const isReg = computed(() => {
       return currentQuery.value.type === "reg";
@@ -132,6 +139,16 @@ export default defineComponent({
           }
         });
       },
+      showLoginForm() {
+        if (modelData.loginFormShow) return;
+        modelData.loginFormShow = true;
+        document.removeEventListener("keydown", methods.showLoginForm);
+        nameRef.value.focus();
+      },
+      handleKeySubmit(disabled = false) {
+        if (disabled) return;
+        methods.handleSubmit(!isReg.value);
+      },
     };
     const validConfirmPassword = (rules: GObj, value: string, callBack: Fn) => {
       if (value !== modelData.modelRef.password)
@@ -148,14 +165,16 @@ export default defineComponent({
         ],
       },
     };
-    onMounted(async () => {
-      const res = await store.dispatch(UserActionsType.TOKEN_AUTH);
-      if (res) pushRouteFullpath("/");
-      modelData.loginLoading = false;
+    onMounted(() => {
+      document.addEventListener("keydown", methods.showLoginForm);
+    });
+    onUnmounted(() => {
+      document.removeEventListener("keydown", methods.showLoginForm);
     });
     return {
       isReg,
       FormRef,
+      nameRef,
       video,
       ...toRefs(modelData),
       ...methods,
@@ -173,6 +192,12 @@ export default defineComponent({
   display: flex;
   align-items: center;
   justify-content: center;
+  &:not(.loginFormShow) {
+    cursor: none;
+    & > * {
+      cursor: inherit;
+    }
+  }
 }
 .form-box {
   border-radius: 10px;
@@ -182,6 +207,12 @@ export default defineComponent({
   box-shadow: 0 0 10px 2px #bababa;
   position: relative;
   background-color: rgba($color: #ececec, $alpha: 0.8);
+  opacity: 0;
+}
+.loginFormShow {
+  .form-box {
+    animation: formShow 200ms forwards;
+  }
 }
 .video {
   position: fixed;
@@ -191,5 +222,39 @@ export default defineComponent({
   height: 100vh;
   object-fit: cover;
   transform: scale(1.2);
+  pointer-events: none;
+}
+.login-tip {
+  position: fixed;
+  bottom: 30%;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 0 4px #000;
+  opacity: 0.8;
+  animation: tipBreath 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes tipBreath {
+  0% {
+    opacity: 0.8;
+    text-shadow: 0 0 4px #000;
+  }
+  50% {
+    opacity: 1;
+    text-shadow: 0 0 12px gold;
+  }
+  100% {
+    opacity: 0.8;
+    text-shadow: 0 0 4px #000;
+  }
+}
+@keyframes formShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 </style>

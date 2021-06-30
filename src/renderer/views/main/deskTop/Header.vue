@@ -8,7 +8,10 @@
         </div>
       </template>
     </div>
-
+    <div class="center">
+      <div><code>骑士战争</code>内测版v1.0.2</div>
+      <div>官方QQ群：暂无</div>
+    </div>
     <div class="right">
       <template v-for="(item, i) of rightList" :key="'right-item-' + i">
         <el-divider direction="vertical" v-if="i > 0"></el-divider>
@@ -61,7 +64,7 @@ export default defineComponent({
       return [
         {
           prop: "用户名",
-          value: store.state.user.userInfo.name,
+          value: store.state.user.userInfo.name || "未登录",
         },
         {
           prop: "状态",
@@ -96,16 +99,24 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   .left,
-  .right {
+  .right,
+  .center {
     display: flex;
     align-items: center;
     text-align: center;
+    width: 30%;
   }
   .right {
     flex-direction: row-reverse;
   }
   .el-divider {
     background-color: #aaa;
+  }
+  .center {
+    justify-content: center;
+    & > div:not(:first-of-type) {
+      margin-left: 10px;
+    }
   }
 }
 </style>
