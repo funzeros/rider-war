@@ -52,7 +52,7 @@ export default defineComponent({
   &:hover {
     .text-inner {
       transform: translateX(10px);
-      filter: sepia(80%);
+      color: lighten($color: #ff4, $amount: 30);
     }
     &::before {
       width: calc(100% + 100px);

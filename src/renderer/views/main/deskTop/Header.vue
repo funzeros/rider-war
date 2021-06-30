@@ -9,8 +9,8 @@
       </template>
     </div>
     <div class="center">
-      <div><code>骑士战争</code>内测版v1.0.2</div>
-      <div>官方QQ群：暂无</div>
+      <div>{{ versionInfo }}</div>
+      <div>官方QQ群：<span @click="openPage()">908323661</span></div>
     </div>
     <div class="right">
       <template v-for="(item, i) of rightList" :key="'right-item-' + i">
@@ -27,7 +27,8 @@ import { userStatusDict } from "@renderer/const/user";
 import { useStore } from "@renderer/store";
 import { UserItemVO } from "@renderer/store/modules/common/state";
 import { computed, defineComponent } from "vue";
-
+import { versionInfo } from "@renderer/const/index";
+const { shell } = require("electron");
 export default defineComponent({
   setup() {
     const store = useStore();
@@ -72,13 +73,21 @@ export default defineComponent({
         },
       ];
     });
+    const methods = {
+      openPage() {
+        const url =
+          "https://qm.qq.com/cgi-bin/qm/qr?k=BVY7Uw2Xhi0KDGJj07oE9xAWYWyjDI4T&jump_from=webapi";
+        shell.openExternal(url);
+      },
+    };
 
-    return { rightList, leftList };
+    return { rightList, leftList, ...methods, versionInfo };
   },
 });
 </script>
 <style lang="scss" scoped>
 .header-wrap {
+  -webkit-app-region: drag;
   position: absolute;
   top: 0;
   left: 0;
@@ -116,6 +125,13 @@ export default defineComponent({
     justify-content: center;
     & > div:not(:first-of-type) {
       margin-left: 10px;
+    }
+    span {
+      cursor: pointer;
+      -webkit-app-region: no-drag;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

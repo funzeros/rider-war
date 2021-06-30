@@ -136,14 +136,12 @@ export default defineComponent({
       methods.updateInit();
     });
     onUnmounted(() => {
-      ipcRenderer.removeAllListeners("confirm-message");
       ipcRenderer.removeAllListeners("download-done");
       ipcRenderer.removeAllListeners("download-paused");
-      ipcRenderer.removeAllListeners("confirm-stop");
-      ipcRenderer.removeAllListeners("confirm-start");
-      ipcRenderer.removeAllListeners("confirm-download");
       ipcRenderer.removeAllListeners("download-progress");
       ipcRenderer.removeAllListeners("download-error");
+      ipcRenderer.removeAllListeners("UpdateMsg");
+      ipcRenderer.removeAllListeners("hot-update-status");
     });
     return {
       ...toRefs(modelData),

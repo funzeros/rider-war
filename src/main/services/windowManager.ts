@@ -31,11 +31,11 @@ class MainInit {
   // 主窗口函数
   createMainWindow() {
     this.mainWindow = new BrowserWindow({
-      height: 700,
+      height: 810,
       useContentSize: true,
-      width: 1366,
-      minWidth: 1366,
-      minHeight: 720,
+      width: 1440,
+      minWidth: 1440,
+      minHeight: 810,
       show: false,
       frame: config.IsUseSysTitle,
       titleBarStyle: "hidden",

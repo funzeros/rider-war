@@ -93,5 +93,15 @@ export default {
         }
       });
     });
+    ipcMain.handle("set-size", (event, arg) => {
+      mainWindow.setMaximumSize(arg.width, arg.height);
+      mainWindow.setMinimumSize(arg.width, arg.height);
+      mainWindow.setSize(arg.width, arg.height);
+      mainWindow.center();
+    });
+    ipcMain.handle("get-size", () => {
+      const params = mainWindow.getSize();
+      mainWindow.webContents.send("win-size", params);
+    });
   },
 };

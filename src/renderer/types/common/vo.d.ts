@@ -1,0 +1,3 @@
+interface SettingVO {
+  dpi: string;
+}

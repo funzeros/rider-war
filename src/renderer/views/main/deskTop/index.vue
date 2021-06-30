@@ -6,14 +6,16 @@
     </video>
     <HeaderDiv />
     <!-- 按钮组 -->
-    <div class="btn-grid">
-      <g-text-btn
-        v-for="(item, index) of btnListCp"
-        :key="'btn_' + index"
-        :class="[`grid-span-${item.span}`]"
-        @click="item.func"
-        >{{ item.name }}</g-text-btn
-      >
+    <div class="btn-grid-wrap">
+      <div class="btn-grid">
+        <g-text-btn
+          v-for="(item, index) of btnListCp"
+          :key="'btn_' + index"
+          :class="[`grid-span-${item.span}`]"
+          @click="item.func"
+          >{{ item.name }}</g-text-btn
+        >
+      </div>
     </div>
     <DialogExit ref="DialogExitRef"></DialogExit>
     <Setting ref="SettingRef"></Setting>
@@ -124,17 +126,19 @@ export default defineComponent({
   overflow: hidden;
   position: relative;
   background-color: #cecece;
-  perspective: 500;
-  -webkit-perspective: 500;
-  .btn-grid {
+  .btn-grid-wrap {
     position: absolute;
-    left: 150px;
+    left: 100px;
     top: 150px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    transform: rotateY(45deg) rotateX(-30deg);
-    opacity: 1;
+    perspective: 500;
+    -webkit-perspective: 500;
+    .btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      transform: rotateY(30deg) rotateX(-10deg);
+      opacity: 1;
+    }
   }
 }
 .video {
