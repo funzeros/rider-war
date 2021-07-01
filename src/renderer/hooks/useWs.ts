@@ -80,6 +80,10 @@ export const wsFunc: RWWSTypes = {
     const store = useStore();
     store.commit(CommonMutationsType.SET_USER_LIST, res.data);
   },
+  chat(ws, res: RWWSVO<MsgVO>) {
+    const store = useStore();
+    store.commit(CommonMutationsType.PUSH_MSG, res.data);
+  },
 };
 export class Rwws {
   user: UserInfoDTO;

@@ -8,10 +8,12 @@ export interface UserItemVO {
 }
 export interface CommonState {
   userList: UserItemVO[];
+  msgList: MsgVO[];
 }
 
 const common: CommonState = {
   userList: [],
+  msgList: [],
 };
 
 export default common;

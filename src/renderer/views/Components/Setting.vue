@@ -114,8 +114,9 @@ export default defineComponent({
     width: 400px;
     height: 400px;
     border-radius: 10px;
-    background-color: rgba(#2ef, 0.4);
-    box-shadow: 0 0 4px 2px rgba(#2ef, 0.8) inset;
+    background-color: rgba(#166, 0.6);
+    box-shadow: 0 0 100px 2px rgba(#2ef, 0.8) inset,
+      0 0 1px 1px rgba(#2ef, 0.8) inset;
     padding: 20px;
     position: relative;
     display: flex;

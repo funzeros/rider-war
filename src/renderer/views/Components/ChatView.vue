@@ -1,7 +1,13 @@
 <template>
-  <div class="chat-view">
+  <div class="chat-view" :class="{ visible }">
     <div class="msg-inner">
-      <el-scrollbar> </el-scrollbar>
+      <el-scrollbar ref="scrollRef">
+        <div class="msg-item" v-for="(item, i) of msgList" :key="i">
+          <span class="time">[{{ item.time }}]</span
+          ><span class="name">{{ item.name }}：</span>
+          <span class="content" v-html="transf(item.content)"> </span>
+        </div>
+      </el-scrollbar>
     </div>
     <div class="send-inner">
       <div class="face">
@@ -20,9 +26,13 @@
             ></face-icon>
           </template>
           <div class="face-grid">
-            <div class="face-item" v-for="item of faceList" :key="item.icon_id">
+            <div
+              class="face-item"
+              v-for="item of faceList"
+              :key="item.icon_id"
+              :title="item.name"
+            >
               <face-icon
-                :title="item.name"
                 :value="'face-' + item.font_class"
                 size="30"
                 @click="handleInsertFace(item.font_class)"
@@ -36,6 +46,7 @@
         v-model.trim="msgContent"
         maxlength="255"
         @blur="handleBlur"
+        @focus="handleFocus"
         spellcheck="false"
         @keydown.enter="handleSubmit()"
       ></el-input>
@@ -43,7 +54,16 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from "vue";
+import {
+  computed,
+  defineComponent,
+  reactive,
+  ref,
+  toRefs,
+  watch,
+  nextTick,
+  onMounted,
+} from "vue";
 import { faceDataJSON } from "@renderer/styles/index";
 import { useStore } from "@renderer/store";
 import { CommonActionsType } from "@renderer/store/modules/common/actions";
@@ -53,6 +73,7 @@ export default defineComponent({
   setup() {
     const store = useStore();
     const inputRef = ref();
+    const scrollRef = ref();
     const modelData = reactive({
       msgContent: "",
       visible: false,
@@ -71,6 +92,9 @@ export default defineComponent({
       handleBlur() {
         modelData.offset = inputRef.value.$el.children[0].selectionStart;
       },
+      handleFocus() {
+        modelData.visible = false;
+      },
       handleSubmit() {
         if (!modelData.msgContent) return;
         if (modelData.flag) {
@@ -79,19 +103,39 @@ export default defineComponent({
             CommonActionsType.SEND_MSG,
             new MsgDTO(modelData.msgContent, store.state.user.userInfo.name)
           );
+          modelData.msgContent = "";
           setTimeout(() => {
             modelData.flag = true;
           }, 200);
-        } else {
-          console.log("发送消息过于频繁");
         }
       },
+      transf(str: string) {
+        return str.replace(/\[[\w\-]*\]/g, (m) => {
+          return `<svg class="icon" aria-hidden="true" style="font-size: 30px;">
+                    <use xlink:href="#face-${m.slice(1, m.length - 1)}"></use>
+                  </svg>`;
+        });
+      },
+      scrollToBottom() {
+        nextTick(() => {
+          scrollRef.value.wrap.scrollTop = scrollRef.value.wrap.scrollHeight;
+        });
+      },
     };
+    const msgList = computed(() => {
+      return store.state.common.msgList;
+    });
+    watch(() => msgList.value, methods.scrollToBottom);
+    onMounted(() => {
+      methods.scrollToBottom();
+    });
     return {
       faceList: faceDataJSON.glyphs,
       ...toRefs(modelData),
       ...methods,
       inputRef,
+      scrollRef,
+      msgList,
     };
   },
 });
@@ -101,19 +145,23 @@ export default defineComponent({
   position: fixed;
   width: 400px;
   height: 400px;
-  background-color: rgba($color: #000000, $alpha: 0.8);
-  box-shadow: 0 0 4px 0px #fff inset;
+  background-color: rgba($color: #000000, $alpha: 0.6);
   border-radius: 4px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: all 100ms ease-in-out;
   .msg-inner {
     flex: 1;
+    box-sizing: border-box;
+    padding: 5px 10px;
+    overflow: hidden;
   }
   .send-inner {
-    height: 40px;
+    height: 0px;
     box-shadow: 0 0px 4px 0px #fff;
     display: flex;
+    transition: height 100ms ease-in-out;
     .face {
       height: 40px;
       width: 40px;
@@ -123,6 +171,14 @@ export default defineComponent({
       & > svg {
         cursor: pointer;
       }
+    }
+  }
+  &:hover,
+  &.visible {
+    background-color: rgba($color: #000000, $alpha: 0.8);
+    box-shadow: 0 0 4px 0px #fff inset;
+    .send-inner {
+      height: 40px;
     }
   }
 }
@@ -144,6 +200,20 @@ export default defineComponent({
     & > svg {
       cursor: pointer;
     }
+  }
+}
+.msg-item {
+  color: #bbb;
+  height: 30px;
+  line-height: 30px;
+  .time {
+    color: #999;
+  }
+  .name {
+    color: #ddd;
+  }
+  .content {
+    word-break: break-all;
   }
 }
 </style>
