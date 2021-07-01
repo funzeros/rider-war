@@ -2,21 +2,29 @@
   <teleport to="body">
     <div class="model setting-model" :class="{ dialogShow }" v-if="dialogShow">
       <div class="setting-wrap">
+        <div class="header">设置</div>
         <div class="inner">
-          <el-select v-model="form.dpi" placeholder="请选择">
-            <el-option
-              v-for="item in dipMap"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
+          <el-form :model="form" label-width="80px">
+            <el-form-item label="分辨率" prop="dpi">
+              <el-select v-model="form.dpi" placeholder="请选择">
+                <el-option
+                  v-for="item in dipMap"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="是否全屏" prop="fullScreen">
+              <el-switch v-model="form.fullScreen" />
+            </el-form-item>
+          </el-form>
         </div>
         <div class="footer">
-          <g-button type="pulse" @click="submit()">保存</g-button>
+          <div class="button-primary" @click="submit()">保存</div>
+          <div class="button" @click="close()">取消</div>
         </div>
-        <i class="close el-icon-circle-close" @click="close()"></i>
       </div>
     </div>
   </teleport>
@@ -44,7 +52,7 @@ export default defineComponent({
     const dipMap = computed(() => {
       return dpiList.map((m) => ({
         label: m.width + "*" + m.height,
-        value: JSON.stringify(m),
+        value: m.width + "*" + m.height,
       }));
     });
     const methods = {
@@ -71,18 +79,16 @@ export default defineComponent({
         });
       },
       submit() {
-        const { dpi } = modelData.form;
-        if (dpi) {
-          ipcRenderer.invoke("set-size", JSON.parse(dpi));
-        }
+        const { dpi, fullScreen } = modelData.form;
+        ipcRenderer.invoke("set-max", fullScreen);
+        if (dpi && !fullScreen) ipcRenderer.invoke("set-size", dpi);
+        methods.close();
       },
     };
     onMounted(() => {
       ipcRenderer.on("win-size", (e, row) => {
-        modelData.form.dpi = JSON.stringify({
-          width: row[0],
-          height: row[1],
-        });
+        modelData.form.dpi = row.size[0] + "*" + row.size[1];
+        modelData.form.fullScreen = row.fullScreen;
       });
     });
     onUnmounted(() => {
@@ -108,7 +114,7 @@ export default defineComponent({
     width: 400px;
     height: 400px;
     border-radius: 10px;
-    background-color: rgba(#2ef, 0.2);
+    background-color: rgba(#2ef, 0.4);
     box-shadow: 0 0 4px 2px rgba(#2ef, 0.8) inset;
     padding: 20px;
     position: relative;
@@ -118,16 +124,23 @@ export default defineComponent({
       flex: 1;
     }
     .footer {
-      height: 60px;
+      display: flex;
+      justify-content: center;
+      height: 40px;
+    }
+    .header {
+      height: 50px;
+      font-size: 24px;
+      line-height: 30px;
+      text-align: center;
     }
   }
 }
-.close {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  font-size: 32px;
-  cursor: pointer;
+
+.el-form-item {
+  :deep(.el-form-item__label) {
+    color: #fff;
+  }
 }
 
 @keyframes scaleShow {

@@ -185,7 +185,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 .login-wrap {
-  background-color: #cecece;
+  background-color: #333;
   width: 100%;
   height: 100%;
   overflow: hidden;

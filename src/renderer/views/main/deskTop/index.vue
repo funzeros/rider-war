@@ -17,9 +17,10 @@
         >
       </div>
     </div>
-    <DialogExit ref="DialogExitRef"></DialogExit>
-    <Setting ref="SettingRef"></Setting>
-    <DialogUpdate></DialogUpdate>
+    <ChatView style="bottom: 10vh; right: 10vh" />
+    <Setting ref="SettingRef" />
+    <DialogExit ref="DialogExitRef" />
+    <DialogUpdate />
   </div>
 </template>
 <script lang="ts">
@@ -31,16 +32,17 @@ import { useGRoute } from "@renderer/hooks/useRoute";
 import { video } from "@renderer/assets/resource";
 import useGame from "@renderer/hooks/useGame";
 import HeaderDiv from "./Header.vue";
-import DialogExit from "./DialogExit.vue";
+import DialogExit from "@renderer/views/Components/DialogExit.vue";
 import Setting from "@renderer/views/Components/Setting.vue";
 import DialogUpdate from "@renderer/views/Components/DialogUpdate.vue";
-
+import ChatView from "@renderer/views/Components/ChatView.vue";
 export default defineComponent({
   components: {
     HeaderDiv,
     DialogExit,
     Setting,
     DialogUpdate,
+    ChatView,
   },
   setup() {
     const store = useStore();
@@ -85,14 +87,14 @@ export default defineComponent({
         },
         {
           name: "设置",
-          span: "1",
+          span: "2",
           func: () => {
             SettingRef.value.open();
           },
         },
         {
           name: "退出",
-          span: "1",
+          span: "2",
           func: () => {
             DialogExitRef.value.open();
           },
@@ -125,7 +127,7 @@ export default defineComponent({
   height: 100%;
   overflow: hidden;
   position: relative;
-  background-color: #cecece;
+  background-color: #333;
   .btn-grid-wrap {
     position: absolute;
     left: 100px;
@@ -136,7 +138,7 @@ export default defineComponent({
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-      transform: rotateY(30deg) rotateX(-10deg);
+      transform: rotateY(10deg) rotateX(-30deg) rotateZ(-3deg);
       opacity: 1;
     }
   }

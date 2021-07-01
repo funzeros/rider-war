@@ -34,11 +34,11 @@ class MainInit {
       height: 810,
       useContentSize: true,
       width: 1440,
-      minWidth: 1440,
-      minHeight: 810,
       show: false,
       frame: config.IsUseSysTitle,
+      resizable: false,
       titleBarStyle: "hidden",
+      fullscreen: true,
       webPreferences: {
         contextIsolation: false,
         nodeIntegration: true,

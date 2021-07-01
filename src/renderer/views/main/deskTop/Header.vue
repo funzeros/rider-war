@@ -40,7 +40,8 @@ export default defineComponent({
             "在线中：" +
             store.getters.userList.filter(
               (m: UserItemVO) => m.status !== "offLine"
-            ).length,
+            ).length +
+            "人",
         },
         {
           prop: "匹配中",
@@ -48,7 +49,8 @@ export default defineComponent({
             "匹配中：" +
             store.getters.userList.filter(
               (m: UserItemVO) => m.status === "matting"
-            ).length,
+            ).length +
+            "人",
         },
         {
           prop: "游戏中",
@@ -56,7 +58,8 @@ export default defineComponent({
             "游戏中：" +
             store.getters.userList.filter(
               (m: UserItemVO) => m.status === "gaming"
-            ).length,
+            ).length +
+            "人",
         },
       ];
     });

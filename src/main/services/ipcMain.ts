@@ -94,14 +94,23 @@ export default {
       });
     });
     ipcMain.handle("set-size", (event, arg) => {
-      mainWindow.setMaximumSize(arg.width, arg.height);
-      mainWindow.setMinimumSize(arg.width, arg.height);
-      mainWindow.setSize(arg.width, arg.height);
+      const size = arg.split("*").map((m) => +m);
+      // mainWindow.setMaximumSize(size[0], size[1]);
+      // mainWindow.setMinimumSize(size[0], size[1]);
+      mainWindow.setSize(size[0], size[1]);
+      mainWindow.setContentSize(size[0], size[1]);
       mainWindow.center();
     });
     ipcMain.handle("get-size", () => {
-      const params = mainWindow.getSize();
+      const params = {
+        size: mainWindow.getSize(),
+        fullScreen: mainWindow.isFullScreen(),
+      };
       mainWindow.webContents.send("win-size", params);
+    });
+    ipcMain.handle("set-max", async (e, arg) => {
+      if (arg) mainWindow.setFullScreen(true);
+      else mainWindow.setFullScreen(false);
     });
   },
 };

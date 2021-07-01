@@ -12,6 +12,7 @@ interface RWWSTypes {
   attack?: RWFn;
   gameEnd?: RWFn;
   syncUsers?: RWFn;
+  chat?: RWFn;
 }
 type RWWSType = keyof RWWSTypes;
 

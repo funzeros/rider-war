@@ -9,7 +9,8 @@ import router from "./router";
 import { errorHandler } from "./error";
 import { installIepComponents } from "./core/components";
 import store from "./store";
-
+import "@renderer/styles/faceicon/iconfont.js";
+import "@renderer/styles/faceicon/iconfont.css";
 import TitleBar from "./components/common/TitleBar.vue";
 const app = createApp(App);
 app.use(ElementPlus);
