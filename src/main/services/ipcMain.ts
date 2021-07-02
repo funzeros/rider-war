@@ -1,4 +1,4 @@
-import { ipcMain, dialog, BrowserWindow } from "electron";
+import { ipcMain, dialog, BrowserWindow, screen } from "electron";
 import Server from "../server";
 import { winURL } from "../config/StaticPath";
 import { updater } from "./HotUpdater";
@@ -95,8 +95,6 @@ export default {
     });
     ipcMain.handle("set-size", (event, arg) => {
       const size = arg.split("*").map((m) => +m);
-      // mainWindow.setMaximumSize(size[0], size[1]);
-      // mainWindow.setMinimumSize(size[0], size[1]);
       mainWindow.setSize(size[0], size[1]);
       mainWindow.setContentSize(size[0], size[1]);
       mainWindow.center();
@@ -109,8 +107,11 @@ export default {
       mainWindow.webContents.send("win-size", params);
     });
     ipcMain.handle("set-max", async (e, arg) => {
-      if (arg) mainWindow.setFullScreen(true);
-      else mainWindow.setFullScreen(false);
+      if (arg) {
+        const { width, height } = screen.getPrimaryDisplay().size;
+        mainWindow.setContentSize(width, height);
+        mainWindow.setFullScreen(true);
+      } else mainWindow.setFullScreen(false);
     });
   },
 };

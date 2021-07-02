@@ -16,6 +16,7 @@
       <template v-for="(item, i) of rightList" :key="'right-item-' + i">
         <el-divider direction="vertical" v-if="i > 0"></el-divider>
         <div>
+          <i v-if="item.icon" :class="item.icon"></i>
           {{ item.value }}
         </div>
       </template>
@@ -69,10 +70,25 @@ export default defineComponent({
         {
           prop: "用户名",
           value: store.state.user.userInfo.name || "未登录",
+          icon: "el-icon-user",
         },
         {
           prop: "状态",
           value: userStatusDict[store.state.user.userStatus],
+        },
+        {
+          prop: "等级",
+          value: `lv${Math.floor(store.state.user.userInfo.exp / 25)}`,
+        },
+        {
+          prop: "金币",
+          value: store.state.user.userInfo.coin,
+          icon: "el-icon-coin",
+        },
+        {
+          prop: "奖章",
+          value: store.state.user.userInfo.medal,
+          icon: "el-icon-medal",
         },
       ];
     });

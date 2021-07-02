@@ -20,6 +20,7 @@ export enum UserMutationsType {
   SET_MATE_TIMER = "SET_MATE_TIMER",
   SET_USER_STATUS = "SET_USER_STATUS",
   SET_ROOM = "SET_ROOM",
+  SET_CARD_LIST = "SET_CARD_LIST",
 }
 
 export const userMutations = {
@@ -62,5 +63,8 @@ export const userMutations = {
   [UserMutationsType.SET_ROOM](state: StateRoot, payload: GameRoom) {
     state.user.room = mergeProperties(state.user.room, payload);
     router.push(`/main/battle/${payload.roomId}`);
+  },
+  [UserMutationsType.SET_CARD_LIST](state: StateRoot, payload: string[]) {
+    state.user.cardList = payload;
   },
 };

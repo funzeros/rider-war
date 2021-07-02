@@ -2,7 +2,12 @@
   <div class="chat-view" :class="{ visible }">
     <div class="msg-inner">
       <el-scrollbar ref="scrollRef">
-        <div class="msg-item" v-for="(item, i) of msgList" :key="i">
+        <div
+          class="msg-item"
+          :class="[item.type]"
+          v-for="(item, i) of msgList"
+          :key="i"
+        >
           <span class="time">[{{ item.time }}]</span
           ><span class="name">{{ item.name }}：</span>
           <span class="content" v-html="transf(item.content)"> </span>
@@ -68,6 +73,7 @@ import { faceDataJSON } from "@renderer/styles/index";
 import { useStore } from "@renderer/store";
 import { CommonActionsType } from "@renderer/store/modules/common/actions";
 import { MsgDTO } from "@renderer/types/common/dto";
+import { CommonMutationsType } from "@renderer/store/modules/common/mutations";
 export default defineComponent({
   name: "ChatView",
   setup() {
@@ -107,14 +113,22 @@ export default defineComponent({
           setTimeout(() => {
             modelData.flag = true;
           }, 200);
+        } else {
+          store.commit(
+            CommonMutationsType.PUSH_MSG,
+            new MsgDTO("发送消息过于频繁", "系统", "sys")
+          );
         }
       },
       transf(str: string) {
-        return str.replace(/\[[\w\-]*\]/g, (m) => {
-          return `<svg class="icon" aria-hidden="true" style="font-size: 30px;">
+        // 去标签，转化faceicon后再渲染成html
+        return str
+          .replace(/<(\w+)[^>]*>(.*?<\/\1>)?/g, "")
+          .replace(/\[[\w\-]*\]/g, (m) => {
+            return `<svg class="icon" aria-hidden="true" style="font-size: 30px;">
                     <use xlink:href="#face-${m.slice(1, m.length - 1)}"></use>
                   </svg>`;
-        });
+          });
       },
       scrollToBottom() {
         nextTick(() => {
@@ -214,6 +228,13 @@ export default defineComponent({
   }
   .content {
     word-break: break-all;
+  }
+  &.sys {
+    &,
+    .name,
+    .time {
+      color: rgb(200, 180, 70);
+    }
   }
 }
 </style>

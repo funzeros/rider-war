@@ -22,7 +22,7 @@
           </el-form>
         </div>
         <div class="footer">
-          <div class="button-primary" @click="submit()">保存</div>
+          <div class="button" @click="submit()">保存</div>
           <div class="button" @click="close()">取消</div>
         </div>
       </div>
@@ -105,7 +105,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .model {
   padding: 30px;
-  color: #2ef;
+  color: #fff;
   display: flex;
   &.dialogShow {
     animation: scaleShow 100ms ease-in;
@@ -114,9 +114,12 @@ export default defineComponent({
     width: 400px;
     height: 400px;
     border-radius: 10px;
-    background-color: rgba(#166, 0.6);
-    box-shadow: 0 0 100px 2px rgba(#2ef, 0.8) inset,
-      0 0 1px 1px rgba(#2ef, 0.8) inset;
+    background-image: linear-gradient(
+      to bottom right,
+      #3ab5b0 0%,
+      #3d99be 31%,
+      #56317a 100%
+    );
     padding: 20px;
     position: relative;
     display: flex;
@@ -150,6 +153,25 @@ export default defineComponent({
   }
   to {
     transform: scale(1);
+  }
+}
+[class^="button"] {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  text-shadow: 0 0 4px #000;
+  color: #fff;
+  font-weight: 600;
+  font-size: 20px;
+  transition: transform 100ms cubic-bezier(0, 0.8, 1, 2);
+  &:not(:first-of-type) {
+    margin-left: 40px;
+  }
+  &:hover {
+    transform: scale(1.1);
+  }
+  &:active {
+    transform: scale(1.05);
   }
 }
 </style>

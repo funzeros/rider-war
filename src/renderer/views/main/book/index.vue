@@ -7,6 +7,8 @@
           v-for="item of cards"
           :key="item.id"
           :value="item"
+          @click="handleAdd(item)"
+          :class="{ blur: !hasCardList.includes(item.id) }"
         ></g-rider-card>
       </div>
     </div>
@@ -15,14 +17,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { computed, defineComponent } from "vue";
 import { riderList } from "@renderer/const/riders/index";
+import { cardItemAddReq } from "@renderer/api/rw/card";
+import { gMessage } from "@renderer/hooks/useMessage";
+import { Rider } from "@renderer/types/rider/dto";
+import { useStore } from "@renderer/store";
+import { UserActionsType } from "@renderer/store/modules/user/actions";
 export default defineComponent({
   setup() {
+    const store = useStore();
     const constData = {
       cards: riderList,
     };
+    const methods = {
+      async handleAdd(item: Rider) {
+        const { data, message } = await cardItemAddReq(item.id);
+        if (data) {
+          store.dispatch(UserActionsType.GET_CARD_LIST);
+          gMessage("获取卡牌" + item.name, "success");
+        } else gMessage(message, "error");
+      },
+    };
+    const hasCardList = computed(() => {
+      return store.state.user.cardList;
+    });
     return {
+      hasCardList,
+      ...methods,
       ...constData,
     };
   },
@@ -49,5 +71,8 @@ export default defineComponent({
     grid-template-columns: repeat(auto-fill, 100px);
     gap: 20px;
   }
+}
+.blur {
+  filter: blur(5px);
 }
 </style>

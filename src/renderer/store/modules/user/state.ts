@@ -14,6 +14,7 @@ export interface UserState {
   mateTimer: any;
   room?: GameRoom;
   userCards: string[];
+  cardList: string[];
 }
 
 const user: UserState = {
@@ -34,6 +35,7 @@ const user: UserState = {
     "21073383782772126862324353357619982266843864729305",
     "295792107337034246943913440857",
   ],
+  cardList: [],
 };
 
 export default user;

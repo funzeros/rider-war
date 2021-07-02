@@ -1,9 +1,9 @@
 <template>
   <div class="main-wrap">
     <!-- 背景 -->
-    <video class="video" muted="" autoplay="" preload="" loop="">
+    <!-- <video class="video" muted="" autoplay="" preload="" loop="">
       <source :src="video.mp4_saber_01" />
-    </video>
+    </video> -->
     <HeaderDiv />
     <!-- 按钮组 -->
     <div class="btn-grid-wrap">
@@ -12,6 +12,7 @@
           v-for="(item, index) of btnListCp"
           :key="'btn_' + index"
           :class="[`grid-span-${item.span}`]"
+          :style="{ width: item.width }"
           @click="item.func"
           >{{ item.name }}</g-text-btn
         >
@@ -88,6 +89,7 @@ export default defineComponent({
         {
           name: "设置",
           span: "2",
+          width: "50%",
           func: () => {
             SettingRef.value.open();
           },
@@ -95,6 +97,7 @@ export default defineComponent({
         {
           name: "退出",
           span: "2",
+          width: "50%",
           func: () => {
             DialogExitRef.value.open();
           },

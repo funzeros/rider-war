@@ -1,3 +1,4 @@
+import { cardItemListReq } from "@renderer/api/rw/card";
 import { authTokenReq } from "@renderer/api/user";
 import useGAntiShake from "@renderer/hooks/useAntiShake";
 import { gMessage } from "@renderer/hooks/useMessage";
@@ -17,6 +18,7 @@ export enum UserActionsType {
   MATE_DOING = "MATE_DOING",
   MATE_END = "MATE_END",
   GAME_START = "GAME_START",
+  GET_CARD_LIST = "GET_CARD_LIST",
 }
 export const userActions = {
   async [UserActionsType.TOKEN_AUTH]({
@@ -29,7 +31,8 @@ export const userActions = {
       const { data } = await authTokenReq();
       if (data) {
         commit(UserMutationsType.SET_USER_INFO, data);
-        await dispatch(UserActionsType.INIT_WS);
+        dispatch(UserActionsType.INIT_WS);
+        dispatch(UserActionsType.GET_CARD_LIST);
         return true;
       } else {
         commit(UserMutationsType.CLEAR_USER_INFO);
@@ -103,5 +106,15 @@ export const userActions = {
     room: GameRoom
   ) {
     commit(UserMutationsType.SET_ROOM, room);
+  },
+  async [UserActionsType.GET_CARD_LIST]({
+    commit,
+  }: ActionContext<StateRoot, StateRoot>) {
+    const { data } = await cardItemListReq();
+    if (data)
+      commit(
+        UserMutationsType.SET_CARD_LIST,
+        data.map(({ cardId }) => cardId)
+      );
   },
 };
