@@ -198,6 +198,18 @@ export default defineComponent({
       cursor: inherit;
     }
   }
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 10vw;
+    height: 10vh;
+    background-color: rgb(0, 6, 20);
+    border-radius: 5vh;
+    z-index: 1;
+    filter: blur(4px);
+  }
 }
 .form-box {
   border-radius: 10px;
@@ -221,7 +233,6 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  transform: scale(1.2);
   pointer-events: none;
 }
 .login-tip {

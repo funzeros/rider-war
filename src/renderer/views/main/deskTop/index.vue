@@ -142,6 +142,17 @@ export default defineComponent({
   overflow: hidden;
   position: relative;
   background-color: #333;
+  &::before {
+    content: "";
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 10vw;
+    height: 10vh;
+    background-color: rgb(237, 219, 168);
+    border-radius: 5vh;
+    filter: blur(10px);
+  }
   .btn-grid-wrap {
     position: absolute;
     left: 100px;
@@ -152,7 +163,7 @@ export default defineComponent({
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-      transform: rotateY(10deg) rotateX(-30deg) rotateZ(-3deg);
+      transform: rotateY(5deg) rotateX(-15deg) rotateZ(-1deg);
       opacity: 1;
     }
   }
@@ -161,7 +172,6 @@ export default defineComponent({
   width: 100vw;
   height: 100vh;
   object-fit: cover;
-  transform: scale(1.2);
   pointer-events: none;
 }
 .conten {
