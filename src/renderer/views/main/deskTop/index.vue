@@ -1,9 +1,9 @@
 <template>
   <div class="main-wrap">
     <!-- 背景 -->
-    <!-- <video class="video" muted="" autoplay="" preload="" loop="">
+    <video class="video" muted="" autoplay="" preload="" loop="">
       <source :src="video.mp4_saber_01" />
-    </video> -->
+    </video>
     <HeaderDiv />
     <!-- 按钮组 -->
     <div class="btn-grid-wrap">
@@ -32,7 +32,7 @@ import { UserActionsType } from "@renderer/store/modules/user/actions";
 import { useGRoute } from "@renderer/hooks/useRoute";
 import { video } from "@renderer/assets/resource";
 import useGame from "@renderer/hooks/useGame";
-import HeaderDiv from "./Header.vue";
+import HeaderDiv from "@renderer/views/Components/Header.vue";
 import DialogExit from "@renderer/views/Components/DialogExit.vue";
 import Setting from "@renderer/views/Components/Setting.vue";
 import DialogUpdate from "@renderer/views/Components/DialogUpdate.vue";
@@ -75,16 +75,27 @@ export default defineComponent({
           },
         },
         {
-          name: "我的物品",
+          name: "我的卡组",
           span: "2",
-          hidden: true,
+          func: () => {
+            pushRouteName("卡组");
+          },
         },
         {
-          name: "骑士图鉴",
+          name: "商店",
+          span: "2",
+          width: "50%",
+          func: () => {
+            pushRouteName("商店");
+          },
+        },
+        {
+          name: "图鉴",
+          span: "2",
+          width: "50%",
           func: () => {
             pushRouteName("图鉴");
           },
-          span: "2",
         },
         {
           name: "设置",

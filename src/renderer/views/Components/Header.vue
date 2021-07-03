@@ -21,6 +21,10 @@
         </div>
       </template>
     </div>
+    <div class="back" v-if="isBack" @click="handleBack()">
+      <i class="el-icon-refresh-left"></i>
+      <span>返回主菜单</span>
+    </div>
   </div>
 </template>
 <script lang="ts">
@@ -29,9 +33,17 @@ import { useStore } from "@renderer/store";
 import { UserItemVO } from "@renderer/store/modules/common/state";
 import { computed, defineComponent } from "vue";
 import { versionInfo } from "@renderer/const/index";
+import { useGRoute } from "@renderer/hooks/useRoute";
 const { shell } = require("electron");
 export default defineComponent({
+  props: {
+    isBack: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
+    const { pushRouteName } = useGRoute();
     const store = useStore();
     const leftList = computed(() => {
       return [
@@ -64,7 +76,6 @@ export default defineComponent({
         },
       ];
     });
-
     const rightList = computed(() => {
       return [
         {
@@ -97,6 +108,9 @@ export default defineComponent({
         const url =
           "https://qm.qq.com/cgi-bin/qm/qr?k=BVY7Uw2Xhi0KDGJj07oE9xAWYWyjDI4T&jump_from=webapi";
         shell.openExternal(url);
+      },
+      handleBack() {
+        pushRouteName("主菜单");
       },
     };
 
@@ -151,6 +165,31 @@ export default defineComponent({
       &:hover {
         text-decoration: underline;
       }
+    }
+  }
+  .back {
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-image: linear-gradient(
+      to top,
+      rgba(#d5d4d0, 0.8) 0%,
+      rgba(#d5d4d0, 0.8) 1%,
+      rgba(#eeeeec, 0.8) 31%,
+      rgba(#efeeec, 0.8) 75%,
+      rgba(#e9e9e7, 0.8) 100%
+    );
+    line-height: 30px;
+    font-size: 14px;
+    padding: 0 20px 0 10px;
+    border-radius: 0 0 30px 0/ 0 0 30px 0;
+    box-shadow: 1px 1px 4px 0 #aaa, -1px -1px 2px 0 #eee inset;
+    i {
+      margin-right: 4px;
+    }
+    &:hover {
+      color: #666;
     }
   }
 }

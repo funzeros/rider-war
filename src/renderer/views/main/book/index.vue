@@ -12,7 +12,7 @@
         ></g-rider-card>
       </div>
     </div>
-    <g-back></g-back>
+    <HeaderDiv isBack />
   </div>
 </template>
 
@@ -24,7 +24,10 @@ import { gMessage } from "@renderer/hooks/useMessage";
 import { Rider } from "@renderer/types/rider/dto";
 import { useStore } from "@renderer/store";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
+import HeaderDiv from "@renderer/views/Components/Header.vue";
+
 export default defineComponent({
+  components: { HeaderDiv },
   setup() {
     const store = useStore();
     const constData = {
@@ -55,6 +58,7 @@ export default defineComponent({
   width: 100%;
   height: 100%;
   overflow: hidden;
+  padding: 30px 0 0;
   .search {
     height: 60px;
     background-color: beige;

@@ -164,6 +164,7 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  will-change: background-color, box-shadow;
   transition: all 100ms ease-in-out;
   .msg-inner {
     flex: 1;
@@ -175,6 +176,7 @@ export default defineComponent({
     height: 0px;
     box-shadow: 0 0px 4px 0px #fff;
     display: flex;
+    will-change: height;
     transition: height 100ms ease-in-out;
     .face {
       height: 40px;

@@ -82,6 +82,7 @@ export default defineComponent({
   pointer-events: none;
   z-index: 2;
   opacity: 1;
+  will-change: opacity, transform;
   animation: scaleJump 100ms ease forwards, fadeOut 1s 1s ease-out forwards;
   transform-origin: right bottom;
 }

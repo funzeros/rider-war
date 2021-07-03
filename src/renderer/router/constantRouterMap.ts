@@ -43,6 +43,18 @@ const routes: Array<RouteRecordRaw> = [
         meta: isMeta(true),
         component: () => import("@renderer/views/main/battle/index.vue"),
       },
+      {
+        path: "shop",
+        name: "商店",
+        meta: isMeta(true),
+        component: () => import("@renderer/views/main/shop/index.vue"),
+      },
+      {
+        path: "card_group",
+        name: "卡组",
+        meta: isMeta(true),
+        component: () => import("@renderer/views/main/cardGroup/index.vue"),
+      },
     ],
   },
   {

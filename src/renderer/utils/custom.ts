@@ -50,6 +50,9 @@ export class GMath {
   static randomArray<T>(arr: T[]): T {
     return arr[Math.floor(Math.random() * arr.length)];
   }
+  static randomArrayLength(length: number) {
+    return Math.floor(Math.random() * length);
+  }
   /**
    * 精度控制
    * @param num

@@ -26,23 +26,27 @@ export const userActions = {
     commit,
     dispatch,
   }: ActionContext<StateRoot, StateRoot>) {
-    commit(UserMutationsType.GET_USER_INFO);
-    if (state.user.userInfo.token) {
-      const { data } = await authTokenReq();
-      if (data) {
-        commit(UserMutationsType.SET_USER_INFO, data);
-        dispatch(UserActionsType.INIT_WS);
-        dispatch(UserActionsType.GET_CARD_LIST);
-        return true;
-      } else {
-        commit(UserMutationsType.CLEAR_USER_INFO);
-        setTimeout(() => {
-          gMessage("登录授权失效了");
-        }, 100);
-        return false;
+    try {
+      commit(UserMutationsType.GET_USER_INFO);
+      if (state.user.userInfo.token) {
+        const { data } = await authTokenReq();
+        if (data) {
+          commit(UserMutationsType.SET_USER_INFO, data);
+          dispatch(UserActionsType.INIT_WS);
+          dispatch(UserActionsType.GET_CARD_LIST);
+          return true;
+        } else {
+          commit(UserMutationsType.CLEAR_USER_INFO);
+          setTimeout(() => {
+            gMessage("登录授权失效了");
+          }, 100);
+          return false;
+        }
       }
+      return false;
+    } catch {
+      return false;
     }
-    return false;
   },
   async [UserActionsType.LOG_OUT]({
     dispatch,
