@@ -12,6 +12,7 @@ export class UserInfoDTO implements UserInfoVO {
   name = "";
   token = "";
   coin = 0; // 金币
+  chip = 0; // 碎片
   exp = 0; // 经验
   medal = 0; // 奖章
 }

@@ -77,6 +77,7 @@ export default defineComponent({
         {
           name: "我的卡组",
           span: "2",
+          hidden: true,
           func: () => {
             pushRouteName("卡组");
           },

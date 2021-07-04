@@ -34,3 +34,14 @@ export const authTokenReq = () =>
     url: `${prefix}/token`,
     method: "post",
   });
+
+/**
+ * 更新
+ * @returns
+ */
+export const updateUserReq = (data: GObj) =>
+  r.request<R>({
+    url: `${prefix}/update`,
+    method: "post",
+    data,
+  });

@@ -11,6 +11,14 @@ export const cardItemAddReq = (cardId: string) =>
     },
   });
 
+export const cardItemBulkReq = (cardIds: string[]) =>
+  r.request<R<boolean>>({
+    url: `${prefix}/item/bulk`,
+    method: "post",
+    data: {
+      cardIds,
+    },
+  });
 export const cardItemListReq = () =>
   r.request<R<{ cardId: string; userId: number }[]>>({
     url: `${prefix}/item/list`,

@@ -43,19 +43,26 @@
         </div>
       </div>
     </div>
+    <ShopShow ref="ShopShowRef"></ShopShow>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent } from "vue";
+import { computed, defineComponent, ref } from "vue";
 import HeaderDiv from "@renderer/views/Components/Header.vue";
 import { riderList } from "@renderer/const/riders";
 import { useStore } from "@renderer/store";
 import { GMath } from "@renderer/utils/custom";
+import ShopShow from "./ShopShow.vue";
+import { cardItemBulkReq } from "@renderer/api/rw/card";
+import { gMessage } from "@renderer/hooks/useMessage";
+import { updateUserReq } from "@renderer/api/user";
+import { UserActionsType } from "@renderer/store/modules/user/actions";
 
 export default defineComponent({
-  components: { HeaderDiv },
+  components: { HeaderDiv, ShopShow },
   setup() {
     const store = useStore();
+    const ShopShowRef = ref();
     const hasCardList = computed(() => {
       return store.state.user.cardList;
     });
@@ -76,7 +83,19 @@ export default defineComponent({
           };
         });
       },
-      handleDraw(type: number) {
+      async addCard(list: string[]) {
+        if (!list.length) return false;
+        const { data } = await cardItemBulkReq(list);
+        return data;
+      },
+      async addChip(chip) {
+        if (!chip) return false;
+        const { data } = await updateUserReq({
+          chip: store.state.user.userInfo.chip + chip,
+        });
+        return data;
+      },
+      async handleDraw(type: number) {
         let list: { id: string; repeat: boolean }[] = [];
         switch (type) {
           case 1:
@@ -93,7 +112,19 @@ export default defineComponent({
             break;
           default:
         }
-        console.log(list);
+        if (list.length) {
+          ShopShowRef.value.open(list);
+          let ali = [];
+          let chip = 0;
+          list.forEach((m) => {
+            if (m.repeat) chip += 10;
+            else ali.push(m.id);
+          });
+          await Promise.all([this.addCard(ali), this.addChip(chip)]);
+          store.dispatch(UserActionsType.UPDATE_USER);
+        } else {
+          gMessage("不符合抽取条件");
+        }
       },
       disabled(count: 1, noRepeat = false) {
         if (noRepeat) {
@@ -107,6 +138,7 @@ export default defineComponent({
       },
     };
     return {
+      ShopShowRef,
       ...methods,
     };
   },

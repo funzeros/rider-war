@@ -101,6 +101,11 @@ export default defineComponent({
           value: store.state.user.userInfo.medal,
           icon: "el-icon-medal",
         },
+        {
+          prop: "碎片",
+          value: store.state.user.userInfo.chip,
+          icon: "el-icon-money",
+        },
       ];
     });
     const methods = {

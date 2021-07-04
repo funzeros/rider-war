@@ -19,6 +19,7 @@ export enum UserActionsType {
   MATE_END = "MATE_END",
   GAME_START = "GAME_START",
   GET_CARD_LIST = "GET_CARD_LIST",
+  UPDATE_USER = "UPDATE_USER",
 }
 export const userActions = {
   async [UserActionsType.TOKEN_AUTH]({
@@ -120,5 +121,27 @@ export const userActions = {
         UserMutationsType.SET_CARD_LIST,
         data.map(({ cardId }) => cardId)
       );
+  },
+  async [UserActionsType.UPDATE_USER]({
+    state,
+    commit,
+    dispatch,
+  }: ActionContext<StateRoot, StateRoot>) {
+    try {
+      const { data } = await authTokenReq();
+      if (data) {
+        commit(UserMutationsType.SET_USER_INFO, data);
+        dispatch(UserActionsType.GET_CARD_LIST);
+        return true;
+      } else {
+        commit(UserMutationsType.CLEAR_USER_INFO);
+        setTimeout(() => {
+          gMessage("登录授权失效了");
+        }, 100);
+        return false;
+      }
+    } catch {
+      return false;
+    }
   },
 };
