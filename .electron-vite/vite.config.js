@@ -32,7 +32,7 @@ const config = defineConfig({
   },
   plugins: [vuePlugin()],
   optimizeDeps: {
-    include: ["axios", "md5", "vue"],
+    include: ["axios", "md5", "vue", "animejs"],
   },
   publicDir: resolve("static"),
 });

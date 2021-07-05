@@ -6,7 +6,7 @@ import { ipcMain, BrowserWindow, shell } from "electron";
 class Update {
   public mainWindow: BrowserWindow;
   constructor(mainWindow: BrowserWindow) {
-    autoUpdater.setFeedURL("http://47.103.218.109:10088");
+    autoUpdater.setFeedURL("https://gems-oss.oss-cn-hangzhou.aliyuncs.com/RW");
     this.mainWindow = mainWindow;
     // 注册事件
     this.checkUpdate();

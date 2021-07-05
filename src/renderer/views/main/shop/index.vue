@@ -3,11 +3,21 @@
     <HeaderDiv isBack />
     <div class="inner">
       <div class="group gj">
-        <div class="title">高级抽卡</div>
+        <div class="title">
+          高级抽卡
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="花费大量金币抽取未拥有的卡牌"
+            placement="right"
+          >
+            <i class="el-icon-question"></i>
+          </el-tooltip>
+        </div>
         <div
           class="btn"
           :class="{
-            disabled: disabled(1, true),
+            disabled: disabled(1, 1000, true),
           }"
           @click="handleDraw(1)"
         >
@@ -16,7 +26,7 @@
         <div
           class="btn"
           :class="{
-            disabled: disabled(11, true),
+            disabled: disabled(11, 10000, true),
           }"
           @click="handleDraw(2)"
         >
@@ -24,11 +34,21 @@
         </div>
       </div>
       <div class="group pt">
-        <div class="title">普通抽卡</div>
+        <div class="title">
+          普通抽卡
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="花费少量金币抽取可能重复的卡牌"
+            placement="right"
+          >
+            <i class="el-icon-question"></i>
+          </el-tooltip>
+        </div>
         <div
           class="btn"
           :class="{
-            disabled: disabled(1, false),
+            disabled: disabled(1, 100, false),
           }"
           @click="handleDraw(3)"
         >
@@ -36,7 +56,7 @@
         </div>
         <div
           class="btn"
-          :class="{ disabled: disabled(11, false) }"
+          :class="{ disabled: disabled(11, 1000, false) }"
           @click="handleDraw(4)"
         >
           1000/11次
@@ -126,14 +146,16 @@ export default defineComponent({
           gMessage("不符合抽取条件");
         }
       },
-      disabled(count: 1, noRepeat = false) {
+      disabled(count: number, cost: number, noRepeat = false) {
         if (noRepeat) {
           return (
             riderList.filter((m) => !hasCardList.value.includes(m.id)).length <
-            count
+              count || cost > store.state.user.userInfo.coin
           );
         } else {
-          return riderList.length < count;
+          return (
+            riderList.length < count || cost > store.state.user.userInfo.coin
+          );
         }
       },
     };

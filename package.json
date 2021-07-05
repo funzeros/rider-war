@@ -22,7 +22,7 @@
     "publish": [
       {
         "provider": "generic",
-        "url": "http://47.103.218.109:10088"
+        "url": "https://gems-oss.oss-cn-hangzhou.aliyuncs.com/RW"
       }
     ],
     "productName": "骑士战争",

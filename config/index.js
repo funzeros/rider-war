@@ -1,9 +1,7 @@
 module.exports = {
   build: {
-    DisableF12: true,
-    DisableF5: true,
     env: require("./prod.env"),
-    hotPublishUrl: "http://47.103.218.109:10088",
+    hotPublishUrl: "https://gems-oss.oss-cn-hangzhou.aliyuncs.com/RW",
     hotPublishConfigName: "latest.yml",
   },
   dev: {
