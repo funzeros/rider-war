@@ -1,0 +1,163 @@
+{
+  "id": "2647601",
+  "name": "rider-war",
+  "font_family": "riderwar",
+  "css_prefix_text": "rw-",
+  "description": "rider-war iconfont",
+  "glyphs": [
+    {
+      "icon_id": "472963",
+      "name": "血",
+      "font_class": "xie",
+      "unicode": "e7aa",
+      "unicode_decimal": 59306
+    },
+    {
+      "icon_id": "516503",
+      "name": "等级",
+      "font_class": "jz",
+      "unicode": "e657",
+      "unicode_decimal": 58967
+    },
+    {
+      "icon_id": "2029680",
+      "name": "金币",
+      "font_class": "coins",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "3332080",
+      "name": "血糖",
+      "font_class": "xie2",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "3746788",
+      "name": "防御",
+      "font_class": "fangyu",
+      "unicode": "e700",
+      "unicode_decimal": 59136
+    },
+    {
+      "icon_id": "6435674",
+      "name": "Artifact-护甲值",
+      "font_class": "hujiazhi1",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "6746378",
+      "name": "血量",
+      "font_class": "zhiliao",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "7969149",
+      "name": "能量",
+      "font_class": "nengliang",
+      "unicode": "e6ba",
+      "unicode_decimal": 59066
+    },
+    {
+      "icon_id": "8725084",
+      "name": "移动端-LOL剑@3",
+      "font_class": "gongji",
+      "unicode": "e696",
+      "unicode_decimal": 59030
+    },
+    {
+      "icon_id": "9814110",
+      "name": "鞋",
+      "font_class": "minjie",
+      "unicode": "e70e",
+      "unicode_decimal": 59150
+    },
+    {
+      "icon_id": "10221687",
+      "name": "能量",
+      "font_class": "nengliang-s",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "10419372",
+      "name": "exp",
+      "font_class": "exp",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "11020360",
+      "name": "能量",
+      "font_class": "nengliang-c",
+      "unicode": "e66b",
+      "unicode_decimal": 58987
+    },
+    {
+      "icon_id": "11436553",
+      "name": "护甲",
+      "font_class": "hujia",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "12129171",
+      "name": "生命科学",
+      "font_class": "xieliang2",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "12197096",
+      "name": "能量",
+      "font_class": "nengliang-c2",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "14505299",
+      "name": "碎片",
+      "font_class": "suipian",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "14686269",
+      "name": "奖章",
+      "font_class": "jz2",
+      "unicode": "e70b",
+      "unicode_decimal": 59147
+    },
+    {
+      "icon_id": "15557454",
+      "name": "等级",
+      "font_class": "dengji",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "15586180",
+      "name": "碎片",
+      "font_class": "suipian-s",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "21270891",
+      "name": "防御",
+      "font_class": "fangyu1",
+      "unicode": "e6a3",
+      "unicode_decimal": 59043
+    },
+    {
+      "icon_id": "21270893",
+      "name": "血量",
+      "font_class": "xieliang1",
+      "unicode": "e6a4",
+      "unicode_decimal": 59044
+    }
+  ]
+}

@@ -89,22 +89,23 @@ export default defineComponent({
         },
         {
           prop: "等级",
-          value: `lv${Math.floor(store.state.user.userInfo.exp / 25)}`,
+          value: Math.floor(store.state.user.userInfo.exp / 25),
+          icon: "rw-dengji",
         },
         {
           prop: "金币",
           value: store.state.user.userInfo.coin,
-          icon: "el-icon-coin",
+          icon: "rw-coins",
         },
         {
           prop: "奖章",
           value: store.state.user.userInfo.medal,
-          icon: "el-icon-medal",
+          icon: "rw-jz",
         },
         {
           prop: "碎片",
           value: store.state.user.userInfo.chip,
-          icon: "el-icon-money",
+          icon: "rw-suipian",
         },
       ];
     });

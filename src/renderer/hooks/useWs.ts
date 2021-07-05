@@ -7,7 +7,6 @@ import { UserMutationsType } from "@renderer/store/modules/user/mutations";
 import { UserStatus } from "@renderer/store/modules/user/state";
 import { RWWSDTO } from "@renderer/types/rwws/dto";
 import { UserInfoDTO } from "@renderer/types/user/dto";
-import { isDev } from "@renderer/utils/common";
 import { gMyMsg } from "./useGame";
 import { gNotification } from "./useMessage";
 
