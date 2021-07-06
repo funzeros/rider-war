@@ -63,11 +63,11 @@
         </div>
       </div>
     </div>
-    <ShopShow ref="ShopShowRef"></ShopShow>
+    <ShopShow ref="ShopShowRef" @updateUser="handleUpdateUser"></ShopShow>
   </div>
 </template>
 <script lang="ts">
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, onUnmounted, ref } from "vue";
 import HeaderDiv from "@renderer/views/Components/Header.vue";
 import { riderList } from "@renderer/const/riders";
 import { useStore } from "@renderer/store";
@@ -75,7 +75,7 @@ import { GMath } from "@renderer/utils/custom";
 import ShopShow from "./ShopShow.vue";
 import { cardItemBulkReq } from "@renderer/api/rw/card";
 import { gMessage } from "@renderer/hooks/useMessage";
-import { updateUserReq } from "@renderer/api/user";
+import { calculateUserReq } from "@renderer/api/user";
 import { UserActionsType } from "@renderer/store/modules/user/actions";
 
 export default defineComponent({
@@ -108,31 +108,47 @@ export default defineComponent({
         const { data } = await cardItemBulkReq(list);
         return data;
       },
-      async addChip(chip) {
+      async addChip(chip: number) {
         if (!chip) return false;
-        const { data } = await updateUserReq({
-          chip: store.state.user.userInfo.chip + chip,
+        const { data } = await calculateUserReq({
+          chip,
+        });
+        return data;
+      },
+      async reduceCoin(coin: number) {
+        if (!coin) return false;
+        const { data } = await calculateUserReq({
+          coin: -coin,
         });
         return data;
       },
       async handleDraw(type: number) {
         let list: { id: string; repeat: boolean }[] = [];
+        let coin = 0;
         switch (type) {
           case 1:
             list = this.handleGetCard(1, true);
+            coin = 1000;
             break;
           case 2:
             list = this.handleGetCard(11, true);
+            coin = 10000;
             break;
           case 3:
             list = this.handleGetCard(1, false);
+            coin = 100;
             break;
           case 4:
             list = this.handleGetCard(11, false);
+            coin = 1000;
             break;
           default:
         }
         if (list.length) {
+          if (coin) {
+            const data = await this.reduceCoin(coin);
+            if (data) this.handleUpdateUser();
+          }
           ShopShowRef.value.open(list);
           let ali = [];
           let chip = 0;
@@ -141,10 +157,12 @@ export default defineComponent({
             else ali.push(m.id);
           });
           await Promise.all([this.addCard(ali), this.addChip(chip)]);
-          store.dispatch(UserActionsType.UPDATE_USER);
         } else {
           gMessage("不符合抽取条件");
         }
+      },
+      handleUpdateUser() {
+        store.dispatch(UserActionsType.UPDATE_USER);
       },
       disabled(count: number, cost: number, noRepeat = false) {
         if (noRepeat) {
@@ -159,6 +177,9 @@ export default defineComponent({
         }
       },
     };
+    onUnmounted(() => {
+      methods.handleUpdateUser();
+    });
     return {
       ShopShowRef,
       ...methods,

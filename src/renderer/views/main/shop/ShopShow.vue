@@ -26,7 +26,8 @@ import anime from "animejs";
 import { defineComponent, reactive, toRefs } from "vue";
 export default defineComponent({
   name: "ShopShow",
-  setup() {
+  emits: ["updateUser"],
+  setup(props, ctx) {
     const modelData = reactive<{
       dialogShow: boolean;
       list: GObj[];
@@ -39,6 +40,7 @@ export default defineComponent({
         }, 200);
       },
       close() {
+        ctx.emit("updateUser");
         modelData.dialogShow = false;
         modelData.list = [];
       },

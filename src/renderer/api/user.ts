@@ -45,3 +45,15 @@ export const updateUserReq = (data: GObj) =>
     method: "post",
     data,
   });
+
+/**
+ * 计算更新属性
+ * @param data
+ * @returns
+ */
+export const calculateUserReq = (data: GObj) =>
+  r.request<R>({
+    url: `${prefix}/calculate`,
+    method: "post",
+    data,
+  });

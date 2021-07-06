@@ -129,7 +129,7 @@ export default defineComponent({
         modelData.dialogVisible = false;
       },
       handleDownLoad() {
-        shell.openExternal("http://aote.fun:10088");
+        shell.openExternal("http://game.aote.fun:10088");
       },
     };
     onMounted(() => {

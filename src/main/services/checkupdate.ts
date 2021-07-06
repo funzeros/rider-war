@@ -36,7 +36,7 @@ class Update {
       } else {
         this.Message(this.mainWindow, -1, "请手动安装最新版本");
       }
-      shell.openExternal("http://aote.fun:10088");
+      shell.openExternal("http://game.aote.fun:10088");
     });
   }
   // 当开始检查更新的时候触发

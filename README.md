@@ -2,7 +2,7 @@
 
 #### LatestClient
 
-[DownLoad](http://aote.fun:10088)
+[DownLoad](http://game.aote.fun:10088)
 
 #### Introduce
 
